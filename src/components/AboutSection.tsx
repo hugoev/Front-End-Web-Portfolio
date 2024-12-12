@@ -1,179 +1,172 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import React, { useState, useRef, useCallback, memo } from 'react';
+import { motion, useInView } from 'framer-motion';
 
 const AboutSection: React.FC = () => {
-  const containerRef = useRef(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-100px" });
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
 
-  const skills = [
-    { 
-      category: "Development",
-      items: ["Full Stack Development", "Web Applications", "API Integration", "Database Design"]
-    },
-    {
-      category: "Technical",
-      items: ["Problem Solving", "System Architecture", "Performance Optimization", "Technical Support"]
-    },
-    {
-      category: "Tools",
-      items: ["Version Control", "CI/CD", "Cloud Services", "Testing"]
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (ref.current) {
+      const rect = ref.current.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      setMousePosition({ x, y });
     }
-  ];
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-    setMousePosition({ x, y });
-  };
+  }, []);
 
   return (
-    <section 
-      ref={containerRef}
-      id="about" 
-      className="relative min-h-screen bg-[#030303] py-20 overflow-hidden"
+    <section
+      ref={ref}
+      id="about"
       onMouseMove={handleMouseMove}
+      className="relative min-h-screen bg-[#0A0A0A] py-24 overflow-hidden"
     >
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        {/* Animated Grid */}
-        <div 
-          className="absolute inset-0 opacity-[0.07]"
-          style={{
-            backgroundImage: 
-              `linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px),
-               linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-            backgroundSize: '40px 40px',
-            transform: `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px)`
-          }}
-        />
-
-        {/* Gradient Orbs */}
-        <div 
-          className="absolute top-0 right-0 w-[500px] h-[500px] opacity-30"
-          style={{
-            background: 'radial-gradient(circle at center, rgba(56, 189, 248, 0.2) 0%, transparent 70%)',
-            transform: `translate(${mousePosition.x * -20}px, ${mousePosition.y * -20}px)`,
-          }}
-        />
-        <div 
-          className="absolute bottom-0 left-0 w-[500px] h-[500px] opacity-30"
-          style={{
-            background: 'radial-gradient(circle at center, rgba(168, 85, 247, 0.2) 0%, transparent 70%)',
-            transform: `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px)`,
-          }}
-        />
-      </div>
-
+      {/* Animated Background Grid */}
+      <div
+        className="absolute inset-0 opacity-5"
+        style={{
+          backgroundImage: 
+            `linear-gradient(to right, #1E3A8A 1px, transparent 1px),
+             linear-gradient(to bottom, #1E3A8A 1px, transparent 1px)`,
+          backgroundSize: '50px 50px',
+          transform: `translate(${mousePosition.x * 10}px, ${mousePosition.y * 10}px)`
+        }}
+      />
+      
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-20"
-        >
-          <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent mb-4">
+        <div className="text-center mb-20">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="text-4xl font-bold text-white mb-4"
+          >
             About Me
-          </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">
-            Passionate about crafting digital experiences and solving complex problems
-          </p>
-        </motion.div>
+          </motion.h2>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="h-1 w-20 bg-blue-600 mx-auto rounded-full mb-6"
+          />
+        </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Column - Main Content */}
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* Personal Introduction */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="space-y-8"
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="space-y-6"
           >
-            {/* About Text */}
-            <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg blur opacity-20" />
-              <div className="relative bg-black/40 backdrop-blur-xl rounded-lg p-6 border border-white/10">
-                <p className="text-gray-300 leading-relaxed mb-4">
-                  As a Software Engineer at Apple, I specialize in providing exceptional technical support
-                  while leveraging my development expertise to create innovative solutions. My journey includes
-                  freelance development and research experience at UTSA, giving me a unique perspective on
-                  problem-solving and software development.
-                </p>
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-blue-500 rounded-lg opacity-50 blur" />
+              <div className="relative p-6 bg-gray-900 rounded-lg">
+                <h3 className="text-xl font-semibold text-blue-400 mb-4">My Journey</h3>
                 <p className="text-gray-300 leading-relaxed">
-                  I'm passionate about building scalable applications and creating intuitive user experiences.
-                  My approach combines technical excellence with creative problem-solving to deliver
-                  exceptional results.
+                  Software engineer with a focus on building intuitive web applications 
+                  and solving complex technical challenges. Previously worked at Apple, 
+                  where I combined technical support expertise with development skills 
+                  to create innovative solutions.
                 </p>
               </div>
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-2 gap-4">
+            {/* Key Metrics */}
+            <div className="grid grid-cols-2 gap-6">
               {[
-                { label: "Years Experience", value: "3+" },
-                { label: "Projects Completed", value: "20+" },
-                { label: "Technologies", value: "15+" },
-                { label: "Problems Solved", value: "100+" }
+                { value: "5+", label: "Years Experience" },
+                { value: "50+", label: "Projects Completed" },
               ].map((stat, index) => (
                 <motion.div
                   key={stat.label}
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                  transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
                   className="relative group"
                 >
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg blur opacity-20 group-hover:opacity-40 transition duration-300" />
-                  <div className="relative bg-black/40 backdrop-blur-xl rounded-lg p-4 border border-white/10">
-                    <div className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                      {stat.value}
-                    </div>
-                    <div className="text-gray-400 text-sm">
-                      {stat.label}
-                    </div>
+                  <div className="absolute -inset-1 bg-blue-500/20 rounded-lg blur-sm" />
+                  <div className="relative p-4 bg-gray-900 rounded-lg border border-blue-500/20">
+                    <div className="text-2xl font-bold text-blue-400">{stat.value}</div>
+                    <div className="text-gray-400 text-sm">{stat.label}</div>
                   </div>
                 </motion.div>
               ))}
             </div>
           </motion.div>
 
-          {/* Right Column - Skills */}
+          {/* Technical Expertise */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="space-y-6"
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="relative group"
           >
-            {skills.map((skillGroup, groupIndex) => (
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-blue-500 rounded-lg opacity-50 blur" />
+            <div className="relative p-8 bg-gray-900 rounded-lg">
+              <h3 className="text-xl font-semibold text-blue-400 mb-6">Core Technologies</h3>
+              
+              <div className="space-y-6">
+                {[
+                  {
+                    title: "Frontend Development",
+                    items: ["React", "TypeScript", "Next.js", "TailwindCSS"]
+                  },
+                  {
+                    title: "Backend & Infrastructure",
+                    items: ["Node.js", "AWS", "PostgreSQL", "Docker"]
+                  }
+                ].map((category, index) => (
+                  <div key={category.title} className="space-y-3">
+                    <h4 className="text-gray-200 font-medium">{category.title}</h4>
+                    <div className="grid grid-cols-2 gap-3">
+                      {category.items.map((item, itemIndex) => (
+                        <motion.div
+                          key={item}
+                          initial={{ opacity: 0, x: 20 }}
+                          animate={isInView ? { opacity: 1, x: 0 } : {}}
+                          transition={{ duration: 0.4, delay: 0.6 + itemIndex * 0.1 }}
+                          className="flex items-center space-x-2"
+                        >
+                          <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                          <span className="text-gray-300">{item}</span>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
               <motion.div
-                key={skillGroup.category}
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.5 + groupIndex * 0.1 }}
-                className="relative"
+                transition={{ duration: 0.6, delay: 0.8 }}
+                className="mt-8"
               >
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg blur opacity-20" />
-                <div className="relative bg-black/40 backdrop-blur-xl rounded-lg p-6 border border-white/10">
-                  <h3 className="text-xl font-semibold text-white mb-4">
-                    {skillGroup.category}
-                  </h3>
-                  <div className="grid grid-cols-2 gap-3">
-                    {skillGroup.items.map((item, index) => (
-                      <motion.div
-                        key={item}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-                        className="flex items-center space-x-2"
-                      >
-                        <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-blue-400 to-purple-400" />
-                        <span className="text-gray-300">{item}</span>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
+                <a
+                  href="#contact"
+                  className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 
+                           text-white font-medium rounded-lg transition-colors duration-200"
+                >
+                  Let's Connect
+                  <svg
+                    className="w-4 h-4 ml-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    />
+                  </svg>
+                </a>
               </motion.div>
-            ))}
+            </div>
           </motion.div>
         </div>
       </div>
@@ -181,4 +174,4 @@ const AboutSection: React.FC = () => {
   );
 };
 
-export default AboutSection;
+export default memo(AboutSection);
