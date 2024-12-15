@@ -1,0 +1,16 @@
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .transform-gpu {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  
+  @supports (-webkit-backdrop-filter: none) {
+    .backdrop-blur-xl {
+      -webkit-backdrop-filter: blur(24px);
+      backdrop-filter: blur(24px);
+    }
+  }

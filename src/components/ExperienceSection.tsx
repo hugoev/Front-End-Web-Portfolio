@@ -45,14 +45,14 @@ const ExperienceSection: React.FC = () => {
         </svg>
       ),
       role: "Software Engineer",
-      period: "2022 - 2023",
+      period: "2023 - Present",
       description: [
         "Developed custom web applications for clients",
         "Implemented full-stack solutions from concept to deployment",
         "Managed project lifecycles and client communication",
         "Created scalable and maintainable code"
       ],
-      skills: ["React", "Node.js", "TypeScript", "MongoDB"]
+      skills: ["React", "Next.js", "TypeScript", "PostgreSQL"]
     },
     {
       company: "UTSA",
@@ -62,7 +62,7 @@ const ExperienceSection: React.FC = () => {
         </svg>
       ),
       role: "Research Assistant",
-      period: "2021 - 2022",
+      period: "2023 - 2024",
       description: [
         "Conducted research in computer science",
         "Assisted in data collection and analysis",

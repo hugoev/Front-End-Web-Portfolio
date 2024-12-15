@@ -24,8 +24,8 @@ const TECHNOLOGIES: readonly Technology[] = [
   { name: 'TypeScript', color: 'from-blue-500 to-blue-700' },
   { name: 'Node.js', color: 'from-blue-400 to-blue-500' },
   { name: 'Next.js', color: 'from-gray-400 to-gray-600' },
-  { name: 'MongoDB', color: 'from-blue-300 to-blue-500' },
-  { name: 'AWS', color: 'from-gray-300 to-blue-500' }
+  //{ name: 'MongoDB', color: 'from-blue-300 to-blue-500' },
+  //{ name: 'AWS', color: 'from-gray-300 to-blue-500' }
 ];
 
 const SOCIAL_LINKS: readonly SocialLink[] = [
@@ -110,36 +110,171 @@ const CodeContent = memo(({ tech }: { tech: string }) => (
 ));
 CodeContent.displayName = 'CodeContent';
 
-const CodeEditor = memo(({ tech }: { tech: string }) => (
-  <div className="relative bg-gray-900/80 backdrop-blur-xl rounded-2xl p-8 border border-gray-800 shadow-2xl">
-    <div className="flex items-center justify-between mb-6">
-      <div className="flex space-x-2" role="presentation">
-        <div className="w-3 h-3 rounded-full bg-gray-700" />
-        <div className="w-3 h-3 rounded-full bg-gray-700" />
-        <div className="w-3 h-3 rounded-full bg-gray-700" />
-      </div>
-      <div className="px-4 py-1 rounded-md text-sm text-gray-500">
-        developer.ts
-      </div>
+const FeatureCard = memo(({ tech, mousePosition }: { tech: string; mousePosition: MousePosition }) => {
+  const rotateX = (mousePosition.y - 0.5) * 20;
+  const rotateY = (mousePosition.x - 0.5) * 20;
+
+  return (
+    <div
+      className="relative w-full aspect-[4/3] transform-gpu"
+      style={{
+        perspective: '1000px',
+        transformStyle: 'preserve-3d'
+      }}
+    >
+      <motion.div
+        className="relative w-full h-full"
+        style={{
+          transformStyle: 'preserve-3d',
+          transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
+        }}
+        transition={{ type: "spring", stiffness: 100, damping: 30 }}
+      >
+        {/* Main Card */}
+        <div className="absolute inset-0 bg-[#0A0A0A] rounded-2xl border border-blue-500/20 shadow-2xl overflow-hidden">
+          {/* Dynamic Background */}
+          <div className="absolute inset-0">
+            {/* Animated Gradients */}
+            <div className="absolute inset-0 opacity-75">
+              <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/40 via-blue-500/20 to-transparent animate-gradient-x" />
+              <div className="absolute inset-0 bg-gradient-to-br from-transparent via-blue-400/20 to-blue-600/30 animate-gradient-y" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.1),transparent_70%)]" />
+            </div>
+            
+            {/* Animated Lines */}
+            <div className="absolute inset-0">
+              <svg className="w-full h-full opacity-20" viewBox="0 0 100 100">
+                <motion.path
+                  d="M0,50 Q25,40 50,50 T100,50"
+                  stroke="url(#blue-gradient)"
+                  strokeWidth="0.2"
+                  fill="none"
+                  animate={{
+                    d: [
+                      "M0,50 Q25,40 50,50 T100,50",
+                      "M0,50 Q25,60 50,50 T100,50",
+                      "M0,50 Q25,40 50,50 T100,50"
+                    ]
+                  }}
+                  transition={{
+                    duration: 5,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+                <defs>
+                  <linearGradient id="blue-gradient" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stopColor="#3B82F6" stopOpacity="0" />
+                    <stop offset="50%" stopColor="#3B82F6" stopOpacity="1" />
+                    <stop offset="100%" stopColor="#3B82F6" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="relative h-full p-8 flex flex-col justify-between">
+            {/* Header with Tech Focus */}
+            <div className="space-y-6">
+              <motion.div
+                key={tech}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="space-y-2"
+              >
+                <div className="text-sm text-blue-400 tracking-wider">CURRENT FOCUS</div>
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-blue-500/10 rounded-xl">
+                    <svg className="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                  <span className="text-2xl font-bold bg-gradient-to-r from-white to-blue-400 bg-clip-text text-transparent">
+                    {tech}
+                  </span>
+                </div>
+              </motion.div>
+
+              {/* Animated Divider */}
+              <div className="relative h-px w-full overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-400 to-transparent"
+                  animate={{
+                    x: ['-100%', '100%']
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Animated Skill Cards */}
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { name: 'Frontend', icon: '⚡️' },
+                { name: 'Backend', icon: '🛠' },
+                { name: 'Cloud', icon: '☁️' },
+                { name: 'UI/UX', icon: '🎨' }
+              ].map((skill, index) => (
+                <motion.div
+                  key={skill.name}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{
+                    duration: 0.3,
+                    delay: index * 0.1,
+                    type: "spring"
+                  }}
+                  whileHover={{ scale: 1.05 }}
+                  className="group relative px-4 py-3 bg-blue-500/5 rounded-xl border border-blue-500/10 hover:border-blue-500/30 transition-colors duration-300"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
+                  <div className="relative flex items-center gap-2">
+                    <span className="text-lg">{skill.icon}</span>
+                    <span className="text-sm text-gray-300 group-hover:text-white transition-colors duration-300">
+                      {skill.name}
+                    </span>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Interactive Footer */}
+            <div className="mt-6 pt-6 border-t border-blue-500/10">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
+                  <span className="text-sm text-blue-400">Open to Opportunities</span>
+                </div>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  className="px-3 py-1 bg-blue-500/10 rounded-full"
+                >
+                  <span className="text-sm text-gray-400">San Antonio, TX</span>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Enhanced Shadow */}
+        <div 
+          className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-4/5 h-12 bg-blue-500/10 blur-2xl rounded-full"
+          style={{
+            transform: `translateX(-50%) translateZ(-100px) rotateX(90deg)`
+          }}
+        />
+      </motion.div>
     </div>
-    
-    <div className="space-y-4 font-mono text-sm">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={tech}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.5 }}
-          className="text-gray-300"
-        >
-          <CodeContent tech={tech} />
-        </motion.div>
-      </AnimatePresence>
-    </div>
-  </div>
-));
-CodeEditor.displayName = 'CodeEditor';
+  );
+});
+FeatureCard.displayName = 'FeatureCard';
 
 const Header = memo(() => (
   <div className="space-y-6">
@@ -374,14 +509,13 @@ const HeroSection: React.FC = () => {
             socialLinks={SOCIAL_LINKS}
           />
 
-          <motion.div
+<motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            style={codeEditorStyle()}
             className="hidden lg:block"
           >
-            <CodeEditor tech={TECHNOLOGIES[activeTech].name} />
+            <FeatureCard tech={TECHNOLOGIES[activeTech].name} mousePosition={mousePosition} />
           </motion.div>
         </div>
       </div>

@@ -66,10 +66,10 @@ const AboutSection: React.FC = () => {
               <div className="relative p-6 bg-gray-900 rounded-lg">
                 <h3 className="text-xl font-semibold text-blue-400 mb-4">My Journey</h3>
                 <p className="text-gray-300 leading-relaxed">
-                  Software engineer with a focus on building intuitive web applications 
-                  and solving complex technical challenges. Previously worked at Apple, 
-                  where I combined technical support expertise with development skills 
-                  to create innovative solutions.
+                  Passionate software engineer with experience in building intuitive web applications 
+                  and solving complex technical challenges. Specializing in modern web technologies 
+                  and full-stack development, I focus on creating efficient, scalable solutions that 
+                  deliver exceptional user experiences.
                 </p>
               </div>
             </div>

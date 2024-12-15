@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 
 const ContactSection: React.FC = () => {
   const containerRef = useRef(null);
@@ -103,7 +103,8 @@ const ContactSection: React.FC = () => {
         <div className="absolute inset-0 opacity-[0.07]"
           style={{
             backgroundImage: `radial-gradient(circle at center, rgba(29, 78, 216, 0.3) 2px, transparent 2px)`,
-            backgroundSize: '48px 48px'
+            backgroundSize: '48px 48px',
+            transform: 'translateZ(0)' // Force GPU acceleration
           }}
         />
         <motion.div
@@ -114,9 +115,13 @@ const ContactSection: React.FC = () => {
           transition={{
             duration: 20,
             repeat: Infinity,
-            repeatType: "reverse"
+            repeatType: "reverse",
+            ease: "linear"
           }}
-          className="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"
+          className="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-2xl transform-gpu" // Changed blur-3xl to blur-2xl and added transform-gpu
+          style={{
+            willChange: 'transform' // Optimize animations
+          }}
         />
         <motion.div
           animate={{
@@ -126,9 +131,13 @@ const ContactSection: React.FC = () => {
           transition={{
             duration: 20,
             repeat: Infinity,
-            repeatType: "reverse"
+            repeatType: "reverse",
+            ease: "linear"
           }}
-          className="absolute bottom-0 left-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl"
+          className="absolute bottom-0 left-0 w-96 h-96 bg-blue-400/10 rounded-full blur-2xl transform-gpu" // Same changes here
+          style={{
+            willChange: 'transform'
+          }}
         />
       </div>
 
@@ -162,7 +171,7 @@ const ContactSection: React.FC = () => {
             Have a project in mind? Let's discuss how we can work together to bring your ideas to life.
           </p>
         </motion.div>
-
+        
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Left Column - Contact Info & Social */}
           <motion.div
@@ -243,12 +252,8 @@ const ContactSection: React.FC = () => {
                   </div>
                   <a
                     
-                    href={encodeURI(`mailto:youremail@example.com?subject=Business Inquiry&body=Hi,\n\nI'm interested in discussing a potential project with you.`)}
+                    href="mailto:hugoev@live.com"
                     className="relative group inline-block w-full"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      window.location.href = encodeURI(`mailto:youremail@example.com?subject=Business Inquiry&body=Hi,\n\nI'm interested in discussing a potential project with you.`);
-                    }}
                   >
                     <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-blue-400 rounded-lg opacity-75 blur group-hover:opacity-100 transition duration-300" />
                     <div className="relative px-8 py-3 bg-[#0A0A0A] rounded-lg flex items-center justify-center space-x-2">
