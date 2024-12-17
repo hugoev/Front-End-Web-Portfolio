@@ -1,12 +1,37 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
+
+interface Technology {
+  name: string;
+  proficiency: number;
+  description: string;
+  icon: JSX.Element;
+  color: string;
+}
+
+interface TechnologiesData {
+  Frontend: Technology[];
+  Backend: Technology[];
+  Tools: Technology[];
+  [key: string]: Technology[];
+}
+
+interface ProficiencyBarProps {
+  percentage: number;
+  color: string;
+}
 
 const TechStackSection: React.FC = () => {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
   const [activeCategory, setActiveCategory] = useState<string>('Frontend');
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
-  const technologies = {
+  useEffect(() => {
+    setIsInitialLoad(false);
+  }, [activeCategory]);
+
+  const technologies: TechnologiesData = {
     Frontend: [
       {
         name: "React",
@@ -14,14 +39,14 @@ const TechStackSection: React.FC = () => {
         description: "Component-based UI development",
         icon: (
           <svg viewBox="-11.5 -10.23174 23 20.46348" fill="currentColor">
-      <title>React Logo</title>
-      <circle r="2.05" fill="currentColor"/>
-      <g stroke="currentColor" strokeWidth="1" fill="none">
-        <ellipse rx="11" ry="4.2"/>
-        <ellipse rx="11" ry="4.2" transform="rotate(60)"/>
-        <ellipse rx="11" ry="4.2" transform="rotate(120)"/>
-      </g>
-    </svg>
+            <title>React Logo</title>
+            <circle r="2.05" fill="currentColor"/>
+            <g stroke="currentColor" strokeWidth="1" fill="none">
+              <ellipse rx="11" ry="4.2"/>
+              <ellipse rx="11" ry="4.2" transform="rotate(60)"/>
+              <ellipse rx="11" ry="4.2" transform="rotate(120)"/>
+            </g>
+          </svg>
         ),
         color: "from-blue-600 to-blue-400"
       },
@@ -67,11 +92,9 @@ const TechStackSection: React.FC = () => {
         icon: (
           <svg viewBox="0 0 24 24" fill="currentColor">
             <g>
-        {/* Bottom snake (darker) */}
-        <path d="M11.914,0C5.82,0,6.2,2.656,6.2,2.656l.007,2.752h5.814v.826H3.9S0,5.789,0,11.969s3.403,6,3.403,6h2.02V14.93s-.108-3.409,3.35-3.409h5.762s3.239.052,3.239-3.13V3.147S18.28,0,11.914,0ZM8.718,1.85a1.051,1.051,0,1,1-1.05,1.052A1.052,1.052,0,0,1,8.718,1.85Z"/>
-        {/* Top snake (lighter) */}
-        <path d="M12.087,24c6.093,0,5.714-2.656,5.714-2.656l-.007-2.752H11.98v-.826h8.121s3.9.445,3.9-5.735-3.4-6-3.4-6h-2.02v3.045s.108,3.409-3.35,3.409H9.463s-3.239-.052-3.239,3.13v5.244S5.72,24,12.087,24Zm3.2-1.85a1.051,1.051,0,1,1,1.05-1.052A1.052,1.052,0,0,1,15.283,22.15Z"/>
-      </g>
+              <path d="M11.914,0C5.82,0,6.2,2.656,6.2,2.656l.007,2.752h5.814v.826H3.9S0,5.789,0,11.969s3.403,6,3.403,6h2.02V14.93s-.108-3.409,3.35-3.409h5.762s3.239.052,3.239-3.13V3.147S18.28,0,11.914,0ZM8.718,1.85a1.051,1.051,0,1,1-1.05,1.052A1.052,1.052,0,0,1,8.718,1.85Z"/>
+              <path d="M12.087,24c6.093,0,5.714-2.656,5.714-2.656l-.007-2.752H11.98v-.826h8.121s3.9.445,3.9-5.735-3.4-6-3.4-6h-2.02v3.045s.108,3.409-3.35,3.409H9.463s-3.239-.052-3.239,3.13v5.244S5.72,24,12.087,24Zm3.2-1.85a1.051,1.051,0,1,1,1.05-1.052A1.052,1.052,0,0,1,15.283,22.15Z"/>
+            </g>
           </svg>
         ),
         color: "from-blue-600 to-blue-400"
@@ -84,12 +107,50 @@ const TechStackSection: React.FC = () => {
         description: "Version control system",
         icon: (
           <svg viewBox="0 0 24 24" fill="currentColor">
-<path d="M23.546 10.93L13.067.452c-.604-.603-1.582-.603-2.188 0L8.708 2.627l2.76 2.76c.645-.215 1.379-.07 1.889.441.516.515.658 1.258.438 1.9l2.658 2.66c.645-.223 1.387-.078 1.9.435.721.72.721 1.884 0 2.604-.719.719-1.881.719-2.6 0-.539-.541-.674-1.337-.404-1.996L12.86 8.955v6.525c.176.086.342.203.488.348.713.721.713 1.883 0 2.6-.719.721-1.889.721-2.609 0-.719-.719-.719-1.879 0-2.598.182-.18.387-.316.605-.406V8.835c-.217-.091-.424-.222-.6-.401-.545-.545-.676-1.342-.396-2.009L7.636 3.7.45 10.881c-.6.605-.6 1.584 0 2.189l10.48 10.477c.604.604 1.582.604 2.186 0l10.43-10.43c.605-.603.605-1.582 0-2.187"/>
+            <path d="M23.546 10.93L13.067.452c-.604-.603-1.582-.603-2.188 0L8.708 2.627l2.76 2.76c.645-.215 1.379-.07 1.889.441.516.515.658 1.258.438 1.9l2.658 2.66c.645-.223 1.387-.078 1.9.435.721.72.721 1.884 0 2.604-.719.719-1.881.719-2.6 0-.539-.541-.674-1.337-.404-1.996L12.86 8.955v6.525c.176.086.342.203.488.348.713.721.713 1.883 0 2.6-.719.721-1.889.721-2.609 0-.719-.719-.719-1.879 0-2.598.182-.18.387-.316.605-.406V8.835c-.217-.091-.424-.222-.6-.401-.545-.545-.676-1.342-.396-2.009L7.636 3.7.45 10.881c-.6.605-.6 1.584 0 2.189l10.48 10.477c.604.604 1.582.604 2.186 0l10.43-10.43c.605-.603.605-1.582 0-2.187"/>
           </svg>
         ),
         color: "from-blue-500 to-blue-300"
       }
     ]
+  };
+
+  const ProficiencyBar: React.FC<ProficiencyBarProps> = ({ percentage, color }) => {
+    const barRef = useRef<HTMLDivElement>(null);
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+      if (!barRef.current) return;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.1 }
+      );
+
+      observer.observe(barRef.current);
+      return () => observer.disconnect();
+    }, []);
+
+    return (
+      <div ref={barRef} className="relative h-2 bg-gray-100 rounded-full overflow-hidden mb-2">
+        <div
+          className={`absolute h-full bg-gradient-to-r ${color} transform-gpu`}
+          style={{
+            width: isVisible ? `${percentage}%` : '0%',
+            transition: 'width 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+            willChange: 'width',
+            WebkitBackfaceVisibility: 'hidden',
+            WebkitPerspective: '1000',
+            WebkitTransform: 'translate3d(0,0,0)'
+          }}
+        />
+      </div>
+    );
   };
 
   return (
@@ -100,14 +161,16 @@ const TechStackSection: React.FC = () => {
     >
       {/* Background Elements */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 opacity-[0.03]"
+        <div 
+          className="absolute inset-0 opacity-[0.03]"
           style={{
             backgroundImage: `radial-gradient(circle at center, rgba(37, 99, 235, 0.3) 2px, transparent 2px)`,
-            backgroundSize: '48px 48px'
+            backgroundSize: '48px 48px',
+            transform: 'translate3d(0,0,0)'
           }}
         />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-400/5 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl transform-gpu" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-400/5 rounded-full blur-3xl transform-gpu" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -115,7 +178,8 @@ const TechStackSection: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          className="text-center mb-16"
+          transition={{ duration: 0.5 }}
+          className="text-center mb-16 transform-gpu"
         >
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
             Technical Skills
@@ -130,7 +194,7 @@ const TechStackSection: React.FC = () => {
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`px-6 py-2 rounded-full transition-all duration-300 ${
+                className={`px-6 py-2 rounded-full transition-all duration-300 transform-gpu ${
                   activeCategory === category
                     ? 'bg-blue-600 text-white'
                     : 'text-gray-600 hover:text-gray-900'
@@ -151,17 +215,20 @@ const TechStackSection: React.FC = () => {
             <motion.div
               key={tech.name}
               layout
-              initial={{ opacity: 0, y: 20 }}
+              initial={!isInitialLoad ? { opacity: 0, y: 20 } : false}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
-              className="group relative"
+              className="group relative transform-gpu"
             >
-              <div className={`absolute -inset-0.5 bg-gradient-to-r ${tech.color} rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-300`} />
+              <div 
+                className={`absolute -inset-0.5 bg-gradient-to-r ${tech.color} rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-300 transform-gpu`}
+                style={{ willChange: 'opacity' }}
+              />
               <div className="relative bg-white rounded-2xl p-6 border border-blue-100">
                 {/* Icon and Title */}
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 text-blue-600 group-hover:text-blue-700 transition-colors duration-300">
+                  <div className="w-12 h-12 text-blue-600 group-hover:text-blue-700 transition-colors duration-300 transform-gpu">
                     {tech.icon}
                   </div>
                   <h3 className="ml-4 text-xl font-semibold text-gray-900">
@@ -174,15 +241,9 @@ const TechStackSection: React.FC = () => {
                   {tech.description}
                 </p>
 
-                {/* Proficiency Bar */}
-                <div className="relative h-2 bg-gray-100 rounded-full overflow-hidden mb-2">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${tech.proficiency}%` }}
-                    transition={{ duration: 1, delay: 0.5 }}
-                    className={`absolute h-full bg-gradient-to-r ${tech.color}`}
-                  />
-                </div>
+                {/* Optimized Proficiency Bar */}
+                <ProficiencyBar percentage={tech.proficiency} color={tech.color} />
+                
                 <div className="text-sm text-gray-600 text-right">
                   {tech.proficiency}%
                 </div>
