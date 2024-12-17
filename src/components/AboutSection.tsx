@@ -77,7 +77,7 @@ const TechCategory = memo(({ title, items }: TechCategoryProps) => (
 // Static data
 const stats = [
   { value: "3+", label: "Years Experience" },
-  { value: "100k+", label: "Lines of Code" },
+  { value: "100k+", label: "Lines of Code   " },
 ];
 
 const technologies = [
