@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import React, { useRef, memo } from 'react';
+import { motion, useInView, LazyMotion, domAnimation } from 'framer-motion';
 
 const ContactSection: React.FC = () => {
   const containerRef = useRef(null);
@@ -61,197 +61,192 @@ const ContactSection: React.FC = () => {
   ];
 
   return (
-    <section 
-  ref={containerRef}
-  id="contact" 
-  className="relative min-h-screen bg-white py-20 overflow-hidden"
->
-  {/* Background Elements */}
-  <div className="absolute inset-0">
-    <div className="absolute inset-0 opacity-[0.03]"
-      style={{
-        backgroundImage: `radial-gradient(circle at center, rgba(37, 99, 235, 0.3) 2px, transparent 2px)`,
-        backgroundSize: '48px 48px',
-        transform: 'translateZ(0)'
-      }}
-    />
-    <motion.div
-      animate={{
-        x: [0, 20, 0],
-        y: [0, 30, 0],
-      }}
-      transition={{
-        duration: 20,
-        repeat: Infinity,
-        repeatType: "reverse",
-        ease: "linear"
-      }}
-      className="absolute top-0 right-0 w-96 h-96 bg-blue-100/50 rounded-full blur-2xl transform-gpu"
-      style={{
-        willChange: 'transform'
-      }}
-    />
-    <motion.div
-      animate={{
-        x: [0, -20, 0],
-        y: [0, -30, 0],
-      }}
-      transition={{
-        duration: 20,
-        repeat: Infinity,
-        repeatType: "reverse",
-        ease: "linear"
-      }}
-      className="absolute bottom-0 left-0 w-96 h-96 bg-blue-50/50 rounded-full blur-2xl transform-gpu"
-      style={{
-        willChange: 'transform'
-      }}
-    />
-  </div>
-
-  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    {/* Section Header */}
-    <div className="text-center mb-16">
-      <motion.div
-        initial={{ scale: 0.5, opacity: 0 }}
-        animate={isInView ? { scale: 1, opacity: 1 } : {}}
-        transition={{ duration: 0.5 }}
-        className="inline-block mb-4"
+    <LazyMotion features={domAnimation}>
+      <section 
+        ref={containerRef}
+        id="contact" 
+        className="relative min-h-screen bg-white py-20 overflow-hidden"
       >
-        <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-400 rounded-full blur-xl opacity-50 animate-pulse" />
-          <div className="relative bg-white p-4 rounded-full border border-blue-100 shadow-lg">
-            <svg className="w-8 h-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-          </div>
+        {/* Background Elements */}
+        <div className="absolute inset-0">
+          <div 
+            className="absolute inset-0 opacity-[0.03]"
+            style={{
+              backgroundImage: `radial-gradient(circle at center, rgba(37, 99, 235, 0.3) 2px, transparent 2px)`,
+              backgroundSize: '48px 48px',
+              transform: 'translateZ(0)'
+            }}
+          />
+          <motion.div
+            animate={{
+              x: [0, 20, 0],
+              y: [0, 30, 0],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "linear"
+            }}
+            className="absolute top-0 right-0 w-96 h-96 bg-blue-100/50 rounded-full blur-2xl transform-gpu"
+          />
+          <motion.div
+            animate={{
+              x: [0, -20, 0],
+              y: [0, -30, 0],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "linear"
+            }}
+            className="absolute bottom-0 left-0 w-96 h-96 bg-blue-50/50 rounded-full blur-2xl transform-gpu"
+          />
         </div>
-      </motion.div>
-      <h2 className="text-4xl font-bold text-gray-900 mb-4">
-        Get In Touch
-      </h2>
-      <div className="h-1 w-20 bg-blue-600 mx-auto rounded-full mb-4" />
-      <p className="text-gray-600 max-w-2xl mx-auto">
-        Have a project in mind? Let's discuss how we can work together to bring your ideas to life.
-      </p>
-    </div>
 
-    <div className="grid lg:grid-cols-2 gap-12">
-      {/* Left Column - Info Card */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={isInView ? { opacity: 1, x: 0 } : {}}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="space-y-8"
-      >
-        <div className="relative group">
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-blue-400 rounded-2xl opacity-20 blur group-hover:opacity-30 transition duration-300" />
-          <div className="relative bg-white rounded-2xl p-8 border border-blue-100 shadow-lg">
-            {/* Contact Info Grid */}
-            <div className="grid gap-6">
-              {contactInfo.map((info) => (
-                <div key={info.title} 
-                  className="flex items-center gap-4 group/item hover:bg-blue-50 p-4 rounded-xl transition-all duration-300"
-                >
-                  <div className="p-3 bg-blue-50 rounded-xl text-blue-600 group-hover/item:scale-110 transition-transform duration-300">
-                    {info.icon}
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-medium text-gray-600">{info.title}</h4>
-                    <p className="text-gray-900">{info.value}</p>
-                    {info.badge && (
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-600 mt-1">
-                        <span className="w-1.5 h-1.5 bg-green-500 rounded-full mr-1.5 animate-pulse" />
-                        {info.badge}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Social Links */}
-            <div className="mt-8 pt-8 border-t border-blue-100">
-              <h3 className="text-gray-900 font-medium mb-4">Connect With Me</h3>
-              <div className="flex gap-4">
-                {socialLinks.map((social) => (
-                  <motion.a
-                    key={social.name}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`p-3 bg-blue-50 rounded-lg text-gray-600 ${social.color} border border-blue-100 hover:border-blue-200 hover:bg-blue-100 transition-all duration-300`}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {social.icon}
-                  </motion.a>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Right Column - Contact Action */}
-      <motion.div
-        initial={{ opacity: 0, x: 20 }}
-        animate={isInView ? { opacity: 1, x: 0 } : {}}
-        transition={{ duration: 0.5, delay: 0.4 }}
-      >
-        <div className="relative group">
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-blue-400 rounded-2xl opacity-20 blur group-hover:opacity-30 transition duration-300" />
-          <div className="relative bg-white rounded-2xl p-8 border border-blue-100 shadow-lg">
-            <div className="text-center space-y-6">
-              <div className="p-4 bg-blue-50 rounded-full inline-block">
-                <svg className="w-8 h-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-xl font-semibold text-gray-900">Let's Work Together</h3>
-                <p className="text-gray-600">
-                  Send me an email and I'll get back to you as soon as possible.
-                </p>
-              </div>
-              <a
-                href="mailto:hugoev@live.com"
-                className="relative group inline-block w-full"
-              >
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-blue-400 rounded-lg opacity-75 blur group-hover:opacity-100 transition duration-300" />
-                <div className="relative px-8 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg flex items-center justify-center space-x-2 transition-colors duration-300">
-                  <span className="text-white font-medium">Send Email</span>
-                  <svg 
-                    className="w-5 h-5 text-white transform group-hover:translate-x-1 transition-transform duration-300"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-16"
+          >
+            <div className="inline-block mb-4">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-400 rounded-full blur-xl opacity-50 animate-pulse" />
+                <div className="relative bg-white p-4 rounded-full border border-blue-100 shadow-lg">
+                  <svg className="w-8 h-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
-              </a>
+              </div>
             </div>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Get In Touch</h2>
+            <div className="h-1 w-20 bg-blue-600 mx-auto rounded-full mb-4" />
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Have a project in mind? Let's discuss how we can work together to bring your ideas to life.
+            </p>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-2 gap-12">
+            {/* Contact Info Card */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="space-y-8 transform-gpu"
+            >
+              <div className="relative group">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-blue-400 rounded-2xl opacity-20 blur group-hover:opacity-30 transition duration-300" />
+                <div className="relative bg-white rounded-2xl p-8 border border-blue-100 shadow-lg">
+                  <div className="grid gap-6">
+                    {contactInfo.map((info) => (
+                      <div key={info.title} 
+                        className="flex items-center gap-4 group/item hover:bg-blue-50 p-4 rounded-xl transition-all duration-300"
+                      >
+                        <div className="p-3 bg-blue-50 rounded-xl text-blue-600 group-hover/item:scale-110 transition-transform duration-300">
+                          {info.icon}
+                        </div>
+                        <div>
+                          <h4 className="text-sm font-medium text-gray-600">{info.title}</h4>
+                          <p className="text-gray-900">{info.value}</p>
+                          {info.badge && (
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-600 mt-1">
+                              <span className="w-1.5 h-1.5 bg-green-500 rounded-full mr-1.5 animate-pulse" />
+                              {info.badge}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Social Links */}
+                  <div className="mt-8 pt-8 border-t border-blue-100">
+                    <h3 className="text-gray-900 font-medium mb-4">Connect With Me</h3>
+                    <div className="flex gap-4">
+                      {socialLinks.map((social) => (
+                        <motion.a
+                          key={social.name}
+                          href={social.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`p-3 bg-blue-50 rounded-lg text-gray-600 ${social.color} border border-blue-100 hover:border-blue-200 hover:bg-blue-100 transition-all duration-300`}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          {social.icon}
+                        </motion.a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Contact Action Card */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="transform-gpu"
+            >
+              <div className="relative group">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-blue-400 rounded-2xl opacity-20 blur group-hover:opacity-30 transition duration-300" />
+                <div className="relative bg-white rounded-2xl p-8 border border-blue-100 shadow-lg">
+                  <div className="text-center space-y-6">
+                    <div className="p-4 bg-blue-50 rounded-full inline-block">
+                      <svg className="w-8 h-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <div className="space-y-2">
+                      <h3 className="text-xl font-semibold text-gray-900">Let's Work Together</h3>
+                      <p className="text-gray-600">
+                        Send me an email and I'll get back to you as soon as possible.
+                      </p>
+                    </div>
+                    <a
+                      href="mailto:hugoev@live.com"
+                      className="relative group inline-block w-full transform-gpu"
+                    >
+                      <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-blue-400 rounded-lg opacity-75 blur group-hover:opacity-100 transition duration-300" />
+                      <div className="relative px-8 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg flex items-center justify-center space-x-2 transition-colors duration-300">
+                      <span className="text-white font-medium">Send Email</span>
+                        <svg 
+                          className="w-5 h-5 text-white transform group-hover:translate-x-1 transition-transform duration-300"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Quick Response Badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.6 }}
+                className="mt-6 flex items-center justify-center gap-2 text-sm text-gray-600"
+              >
+                <svg className="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Usually responds within 24 hours</span>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
-
-        {/* Quick Response Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="mt-6 flex items-center justify-center gap-2 text-sm text-gray-600"
-        >
-          <svg className="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <span>Usually responds within 24 hours</span>
-        </motion.div>
-      </motion.div>
-    </div>
-  </div>
-</section>
+      </section>
+    </LazyMotion>
   );
 };
 
-export default ContactSection;
+export default memo(ContactSection);
