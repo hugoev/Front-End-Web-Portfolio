@@ -1,0 +1,33 @@
+{
+  "files": {
+    "main.css": "/Front-End-Web-Portfolio/static/css/main.0de94a63.css",
+    "main.js": "/Front-End-Web-Portfolio/static/js/main.c36a4213.js",
+    "static/js/159.ae73a877.chunk.js": "/Front-End-Web-Portfolio/static/js/159.ae73a877.chunk.js",
+    "static/js/124.cc2c122b.chunk.js": "/Front-End-Web-Portfolio/static/js/124.cc2c122b.chunk.js",
+    "about.js": "/Front-End-Web-Portfolio/static/js/about.00598a26.chunk.js",
+    "projects.js": "/Front-End-Web-Portfolio/static/js/projects.1fae63c1.chunk.js",
+    "tech.js": "/Front-End-Web-Portfolio/static/js/tech.e1dc6a09.chunk.js",
+    "experience.js": "/Front-End-Web-Portfolio/static/js/experience.342d6d6b.chunk.js",
+    "contact.js": "/Front-End-Web-Portfolio/static/js/contact.9b6f45b5.chunk.js",
+    "footer.js": "/Front-End-Web-Portfolio/static/js/footer.fe1d6eba.chunk.js",
+    "static/js/453.1407b060.chunk.js": "/Front-End-Web-Portfolio/static/js/453.1407b060.chunk.js",
+    "static/js/796.a858803f.chunk.js": "/Front-End-Web-Portfolio/static/js/796.a858803f.chunk.js",
+    "index.html": "/Front-End-Web-Portfolio/index.html",
+    "main.0de94a63.css.map": "/Front-End-Web-Portfolio/static/css/main.0de94a63.css.map",
+    "main.c36a4213.js.map": "/Front-End-Web-Portfolio/static/js/main.c36a4213.js.map",
+    "159.ae73a877.chunk.js.map": "/Front-End-Web-Portfolio/static/js/159.ae73a877.chunk.js.map",
+    "124.cc2c122b.chunk.js.map": "/Front-End-Web-Portfolio/static/js/124.cc2c122b.chunk.js.map",
+    "about.00598a26.chunk.js.map": "/Front-End-Web-Portfolio/static/js/about.00598a26.chunk.js.map",
+    "projects.1fae63c1.chunk.js.map": "/Front-End-Web-Portfolio/static/js/projects.1fae63c1.chunk.js.map",
+    "tech.e1dc6a09.chunk.js.map": "/Front-End-Web-Portfolio/static/js/tech.e1dc6a09.chunk.js.map",
+    "experience.342d6d6b.chunk.js.map": "/Front-End-Web-Portfolio/static/js/experience.342d6d6b.chunk.js.map",
+    "contact.9b6f45b5.chunk.js.map": "/Front-End-Web-Portfolio/static/js/contact.9b6f45b5.chunk.js.map",
+    "footer.fe1d6eba.chunk.js.map": "/Front-End-Web-Portfolio/static/js/footer.fe1d6eba.chunk.js.map",
+    "453.1407b060.chunk.js.map": "/Front-End-Web-Portfolio/static/js/453.1407b060.chunk.js.map",
+    "796.a858803f.chunk.js.map": "/Front-End-Web-Portfolio/static/js/796.a858803f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0de94a63.css",
+    "static/js/main.c36a4213.js"
+  ]
+}
