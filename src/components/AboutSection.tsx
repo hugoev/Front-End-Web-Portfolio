@@ -43,11 +43,12 @@ interface StatCardProps {
   label: string;
 }
 
-const StatCard = memo(({ value, label }: StatCardProps) => (
-  <div className="relative group transform-gpu">
-    <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-blue-400 rounded-lg opacity-50 blur" />
+const StatCard = memo(({ value, label }: { value: string; label: string }) => (
+  <div className="relative group">
+    {/* Make sure gradient is consistent across devices */}
+    <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-blue-400 rounded-lg opacity-50 blur transition-opacity duration-300" />
     <div className="relative p-6 bg-white rounded-lg border border-blue-100">
-      <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent mb-2">
+      <div className="text-3xl font-bold text-gray-900 mb-2">
         {value}
       </div>
       <div className="text-gray-600">{label}</div>

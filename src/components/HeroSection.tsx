@@ -1,7 +1,7 @@
-
 import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
+// Types
 interface Technology {
   readonly name: string;
   readonly color: string;
@@ -18,6 +18,7 @@ interface SocialLink {
   readonly icon: JSX.Element;
 }
 
+// Static data
 const TECHNOLOGIES: readonly Technology[] = [
   { name: 'React', color: 'from-blue-400 to-blue-600' },
   { name: 'TypeScript', color: 'from-blue-500 to-blue-700' },
@@ -46,9 +47,22 @@ const SOCIAL_LINKS: readonly SocialLink[] = [
   }
 ];
 
+// Animation variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
+};
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 }
+};
+
+// Optimized components
 const FeatureCard = memo(({ tech, mousePosition }: { tech: string; mousePosition: MousePosition }) => {
-  const rotateX = (mousePosition.y - 0.5) * 20;
-  const rotateY = (mousePosition.x - 0.5) * 20;
+  const shouldReduceMotion = useReducedMotion();
+  const rotateX = shouldReduceMotion ? 0 : (mousePosition.y - 0.5) * 20;
+  const rotateY = shouldReduceMotion ? 0 : (mousePosition.x - 0.5) * 20;
 
   return (
     <div
@@ -66,17 +80,14 @@ const FeatureCard = memo(({ tech, mousePosition }: { tech: string; mousePosition
         }}
         transition={{ type: "spring", stiffness: 100, damping: 30 }}
       >
-        {/* Main Card */}
         <div className="absolute inset-0 bg-white rounded-2xl border border-blue-100 shadow-lg overflow-hidden">
-          {/* Content */}
           <div className="relative h-full p-8 flex flex-col justify-between">
-            {/* Header */}
             <div className="space-y-6">
               <motion.div
                 key={tech}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
+                initial="hidden"
+                animate="visible"
+                variants={fadeInUp}
                 className="space-y-2"
               >
                 <div className="text-sm text-blue-600 font-medium tracking-wider">CURRENT FOCUS</div>
@@ -93,7 +104,6 @@ const FeatureCard = memo(({ tech, mousePosition }: { tech: string; mousePosition
               </motion.div>
             </div>
 
-            {/* Skills Grid */}
             <div className="grid grid-cols-2 gap-4 mt-8">
               {[
                 { name: 'Frontend', icon: '⚡️' },
@@ -103,15 +113,15 @@ const FeatureCard = memo(({ tech, mousePosition }: { tech: string; mousePosition
               ].map((skill, index) => (
                 <motion.div
                   key={skill.name}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
+                  variants={fadeIn}
+                  initial="hidden"
+                  animate="visible"
                   transition={{
                     duration: 0.3,
-                    delay: index * 0.1,
-                    type: "spring"
+                    delay: index * 0.1
                   }}
                   whileHover={{ scale: 1.05 }}
-                  className="group relative px-4 py-3 bg-blue-50 rounded-xl border border-blue-100 hover:border-blue-200 transition-colors duration-300"
+                  className="group relative px-4 py-3 bg-blue-50 rounded-xl border border-blue-100 hover:border-blue-200 transition-colors duration-300 transform-gpu"
                 >
                   <div className="relative flex items-center gap-2">
                     <span className="text-lg">{skill.icon}</span>
@@ -123,7 +133,6 @@ const FeatureCard = memo(({ tech, mousePosition }: { tech: string; mousePosition
               ))}
             </div>
 
-            {/* Footer */}
             <div className="mt-6 pt-6 border-t border-blue-100">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -136,9 +145,8 @@ const FeatureCard = memo(({ tech, mousePosition }: { tech: string; mousePosition
           </div>
         </div>
 
-        {/* Card Shadow */}
         <div 
-          className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-4/5 h-12 bg-blue-500/5 blur-xl rounded-full"
+          className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-4/5 h-12 bg-blue-500/5 blur-xl rounded-full transform-gpu"
           style={{
             transform: `translateX(-50%) translateZ(-100px) rotateX(90deg)`
           }}
@@ -148,47 +156,45 @@ const FeatureCard = memo(({ tech, mousePosition }: { tech: string; mousePosition
   );
 });
 FeatureCard.displayName = 'FeatureCard';
+const Header = memo(() => {
+  const shouldReduceMotion = useReducedMotion();
 
-const Header = memo(() => (
-  <div className="space-y-6">
-    <motion.div
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.8, delay: 0.4 }}
-      className="inline-block"
-    >
-      <div className="text-sm text-blue-600 font-medium tracking-wider mb-2">
-        SOFTWARE ENGINEER
-      </div>
-      <h1 className="text-6xl lg:text-7xl font-bold">
-        <span className="text-gray-900">Hello, I'm</span>
-        <br />
-        <AnimatePresence mode="wait">
+  return (
+    <div className="space-y-6">
+      <motion.div
+        variants={fadeInUp}
+        initial="hidden"
+        animate="visible"
+        transition={{ duration: 0.5 }}
+        className="inline-block"
+      >
+        <div className="text-sm text-blue-600 font-medium tracking-wider mb-2">
+          SOFTWARE ENGINEER
+        </div>
+        <h1 className="text-6xl lg:text-7xl font-bold">
+          <span className="text-gray-900">Hello, I'm</span>
+          <br />
           <motion.span
-            key="name"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
             className="bg-gradient-to-r from-blue-600 to-blue-400 text-transparent bg-clip-text"
           >
             Hugo Villarreal
           </motion.span>
-        </AnimatePresence>
-      </h1>
-    </motion.div>
+        </h1>
+      </motion.div>
 
-    <motion.p
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8, delay: 0.6 }}
-      className="text-gray-600 text-lg max-w-xl"
-    >
-      Crafting exceptional digital experiences through innovative solutions
-      and cutting-edge technologies.
-    </motion.p>
-  </div>
-));
+      <motion.p
+        variants={fadeIn}
+        initial="hidden"
+        animate="visible"
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="text-gray-600 text-lg max-w-xl"
+      >
+        Crafting exceptional digital experiences through innovative solutions
+        and cutting-edge technologies.
+      </motion.p>
+    </div>
+  );
+});
 Header.displayName = 'Header';
 
 const TechStack = memo(({ technologies, activeTech }: {
@@ -198,67 +204,32 @@ const TechStack = memo(({ technologies, activeTech }: {
   <div className="space-y-4">
     <div className="text-sm text-gray-600 font-medium">TECH STACK</div>
     <div className="flex flex-wrap gap-3">
-      <AnimatePresence mode="wait">
-        {technologies.map((tech, index) => (
-          <motion.div
-            key={tech.name}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-              background: index === activeTech ? 'rgba(59, 130, 246, 0.1)' : 'rgba(243, 244, 246, 1)'
-            }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.3 }}
-            className={`px-4 py-2 rounded-full cursor-pointer
-              ${index === activeTech ? 'ring-2 ring-blue-200' : ''}`}
-          >
-            <span className={`text-sm bg-gradient-to-r ${tech.color} bg-clip-text text-transparent font-medium`}>
-              {tech.name}
-            </span>
-          </motion.div>
-        ))}
-      </AnimatePresence>
+      {technologies.map((tech, index) => (
+        <motion.div
+          key={tech.name}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+            background: index === activeTech ? 'rgba(59, 130, 246, 0.1)' : 'rgba(243, 244, 246, 1)'
+          }}
+          transition={{ duration: 0.2 }}
+          className={`px-4 py-2 rounded-full transform-gpu ${
+            index === activeTech ? 'ring-2 ring-blue-200' : ''
+          }`}
+        >
+          <span className={`text-sm bg-gradient-to-r ${tech.color} bg-clip-text text-transparent font-medium`}>
+            {tech.name}
+          </span>
+        </motion.div>
+      ))}
     </div>
   </div>
 ));
 TechStack.displayName = 'TechStack';
 
-const CTAButtons = memo(() => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8, delay: 0.8 }}
-    className="flex flex-wrap gap-4"
-  >
-    <a
-      href="#projects"
-      className="group relative overflow-hidden px-8 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300"
-      role="button"
-      aria-label="View Projects"
-    >
-      <span className="relative font-medium">View Projects</span>
-    </a>
-    
-    <a
-      href="#contact"
-      className="px-8 py-3 rounded-lg border border-blue-200 text-blue-600 hover:bg-blue-50 transition-all duration-300"
-      role="button"
-      aria-label="Contact Me"
-    >
-      <span className="font-medium">Contact Me</span>
-    </a>
-  </motion.div>
-));
-CTAButtons.displayName = 'CTAButtons';
-
 const SocialLinks = memo(({ links }: { links: readonly SocialLink[] }) => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 0.8, delay: 1 }}
-    className="flex space-x-4"
-  >
+  <div className="flex space-x-4">
     {links.map((social) => (
       <motion.a
         key={social.name}
@@ -266,47 +237,27 @@ const SocialLinks = memo(({ links }: { links: readonly SocialLink[] }) => (
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`Visit ${social.name}`}
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="p-3 rounded-xl text-gray-400 hover:text-blue-500 hover:bg-blue-50 transition-colors duration-300"
+        className="p-3 rounded-xl text-gray-400 hover:text-blue-500 hover:bg-blue-50 transition-colors duration-300 transform-gpu"
       >
         {social.icon}
       </motion.a>
     ))}
-  </motion.div>
+  </div>
 ));
 SocialLinks.displayName = 'SocialLinks';
-
-const MainContent = memo(({ isVisible, technologies, activeTech, socialLinks }: {
-  isVisible: boolean;
-  technologies: readonly Technology[];
-  activeTech: number;
-  socialLinks: readonly SocialLink[];
-}) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8, delay: 0.2 }}
-    className="space-y-12"
-  >
-    <Header />
-    <TechStack technologies={technologies} activeTech={activeTech} />
-    <CTAButtons />
-    <SocialLinks links={socialLinks} />
-  </motion.div>
-));
-MainContent.displayName = 'MainContent';
 
 const BackgroundGrid = memo(({ mousePosition }: { mousePosition: MousePosition }) => (
   <div className="absolute inset-0 opacity-[0.03]">
     <div
-      className="h-full w-full"
+      className="h-full w-full transform-gpu"
       style={{
         backgroundImage: 
           `linear-gradient(to right, rgba(37, 99, 235, 0.1) 1px, transparent 1px),
            linear-gradient(to bottom, rgba(37, 99, 235, 0.1) 1px, transparent 1px)`,
         backgroundSize: '40px 40px',
-        transform: `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px)`
+        transform: `translate3d(${mousePosition.x * 20}px, ${mousePosition.y * 20}px, 0)`
       }}
     />
   </div>
@@ -314,37 +265,41 @@ const BackgroundGrid = memo(({ mousePosition }: { mousePosition: MousePosition }
 BackgroundGrid.displayName = 'BackgroundGrid';
 
 const HeroSection: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
   const [mousePosition, setMousePosition] = useState<MousePosition>({ x: 0.5, y: 0.5 });
   const [activeTech, setActiveTech] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (shouldReduceMotion) return;
+    
     if (containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = (e.clientY - rect.top) / rect.height;
-      setMousePosition({ x, y });
+      
+      requestAnimationFrame(() => {
+        setMousePosition({ x, y });
+      });
     }
-  }, []);
+  }, [shouldReduceMotion]);
 
   useEffect(() => {
-    setIsVisible(true);
     const interval = setInterval(() => {
       setActiveTech(prev => (prev + 1) % TECHNOLOGIES.length);
     }, 3000);
 
     return () => clearInterval(interval);
   }, []);
-
   return (
     <motion.section
       id="home"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
       ref={containerRef}
       onMouseMove={handleMouseMove}
       className="relative min-h-screen flex items-center justify-center bg-white overflow-hidden"
+      initial="hidden"
+      animate="visible"
+      variants={fadeIn}
     >
       {/* Background Elements */}
       <div className="absolute inset-0">
@@ -353,24 +308,46 @@ const HeroSection: React.FC = () => {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <MainContent
-            isVisible={isVisible}
-            technologies={TECHNOLOGIES}
-            activeTech={activeTech}
-            socialLinks={SOCIAL_LINKS}
-          />
+          <div className="space-y-12">
+            <Header />
+            <TechStack technologies={TECHNOLOGIES} activeTech={activeTech} />
+            <div className="space-y-8">
+              <motion.div
+                variants={fadeInUp}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="flex flex-wrap gap-4"
+              >
+                <a
+                  href="#projects"
+                  className="group relative overflow-hidden px-8 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300 transform-gpu"
+                  role="button"
+                  aria-label="View Projects"
+                >
+                  <span className="relative font-medium">View Projects</span>
+                </a>
+                
+                <a
+                  href="#contact"
+                  className="px-8 py-3 rounded-lg border border-blue-200 text-blue-600 hover:bg-blue-50 transition-all duration-300 transform-gpu"
+                  role="button"
+                  aria-label="Contact Me"
+                >
+                  <span className="font-medium">Contact Me</span>
+                </a>
+              </motion.div>
+              <SocialLinks links={SOCIAL_LINKS} />
+            </div>
+          </div>
 
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="hidden lg:block"
+            variants={fadeInUp}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="hidden lg:block transform-gpu"
           >
             <FeatureCard tech={TECHNOLOGIES[activeTech].name} mousePosition={mousePosition} />
           </motion.div>
         </div>
       </div>
-
     </motion.section>
   );
 };
