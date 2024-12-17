@@ -1,33 +1,33 @@
 {
   "files": {
-    "main.css": "/Front-End-Web-Portfolio/static/css/main.fff1fb3c.css",
-    "main.js": "/Front-End-Web-Portfolio/static/js/main.c444230e.js",
+    "main.css": "/Front-End-Web-Portfolio/static/css/main.038d37e7.css",
+    "main.js": "/Front-End-Web-Portfolio/static/js/main.7b5ee084.js",
     "static/js/159.37e8bde7.chunk.js": "/Front-End-Web-Portfolio/static/js/159.37e8bde7.chunk.js",
-    "static/js/124.28ba6c00.chunk.js": "/Front-End-Web-Portfolio/static/js/124.28ba6c00.chunk.js",
-    "about.js": "/Front-End-Web-Portfolio/static/js/about.2ef1ed48.chunk.js",
-    "projects.js": "/Front-End-Web-Portfolio/static/js/projects.c4df4339.chunk.js",
+    "static/js/297.6317ea67.chunk.js": "/Front-End-Web-Portfolio/static/js/297.6317ea67.chunk.js",
+    "about.js": "/Front-End-Web-Portfolio/static/js/about.22304e4f.chunk.js",
+    "projects.js": "/Front-End-Web-Portfolio/static/js/projects.cccc1e9c.chunk.js",
     "tech.js": "/Front-End-Web-Portfolio/static/js/tech.0090cd2b.chunk.js",
-    "experience.js": "/Front-End-Web-Portfolio/static/js/experience.5d50493a.chunk.js",
-    "contact.js": "/Front-End-Web-Portfolio/static/js/contact.d3dd25bb.chunk.js",
-    "footer.js": "/Front-End-Web-Portfolio/static/js/footer.0526464e.chunk.js",
+    "experience.js": "/Front-End-Web-Portfolio/static/js/experience.4cf8c192.chunk.js",
+    "contact.js": "/Front-End-Web-Portfolio/static/js/contact.9c8118bf.chunk.js",
+    "footer.js": "/Front-End-Web-Portfolio/static/js/footer.db0725a3.chunk.js",
     "static/js/453.ace21015.chunk.js": "/Front-End-Web-Portfolio/static/js/453.ace21015.chunk.js",
-    "static/js/274.e98c21fc.chunk.js": "/Front-End-Web-Portfolio/static/js/274.e98c21fc.chunk.js",
+    "static/js/274.570ec410.chunk.js": "/Front-End-Web-Portfolio/static/js/274.570ec410.chunk.js",
     "index.html": "/Front-End-Web-Portfolio/index.html",
-    "main.fff1fb3c.css.map": "/Front-End-Web-Portfolio/static/css/main.fff1fb3c.css.map",
-    "main.c444230e.js.map": "/Front-End-Web-Portfolio/static/js/main.c444230e.js.map",
+    "main.038d37e7.css.map": "/Front-End-Web-Portfolio/static/css/main.038d37e7.css.map",
+    "main.7b5ee084.js.map": "/Front-End-Web-Portfolio/static/js/main.7b5ee084.js.map",
     "159.37e8bde7.chunk.js.map": "/Front-End-Web-Portfolio/static/js/159.37e8bde7.chunk.js.map",
-    "124.28ba6c00.chunk.js.map": "/Front-End-Web-Portfolio/static/js/124.28ba6c00.chunk.js.map",
-    "about.2ef1ed48.chunk.js.map": "/Front-End-Web-Portfolio/static/js/about.2ef1ed48.chunk.js.map",
-    "projects.c4df4339.chunk.js.map": "/Front-End-Web-Portfolio/static/js/projects.c4df4339.chunk.js.map",
+    "297.6317ea67.chunk.js.map": "/Front-End-Web-Portfolio/static/js/297.6317ea67.chunk.js.map",
+    "about.22304e4f.chunk.js.map": "/Front-End-Web-Portfolio/static/js/about.22304e4f.chunk.js.map",
+    "projects.cccc1e9c.chunk.js.map": "/Front-End-Web-Portfolio/static/js/projects.cccc1e9c.chunk.js.map",
     "tech.0090cd2b.chunk.js.map": "/Front-End-Web-Portfolio/static/js/tech.0090cd2b.chunk.js.map",
-    "experience.5d50493a.chunk.js.map": "/Front-End-Web-Portfolio/static/js/experience.5d50493a.chunk.js.map",
-    "contact.d3dd25bb.chunk.js.map": "/Front-End-Web-Portfolio/static/js/contact.d3dd25bb.chunk.js.map",
-    "footer.0526464e.chunk.js.map": "/Front-End-Web-Portfolio/static/js/footer.0526464e.chunk.js.map",
+    "experience.4cf8c192.chunk.js.map": "/Front-End-Web-Portfolio/static/js/experience.4cf8c192.chunk.js.map",
+    "contact.9c8118bf.chunk.js.map": "/Front-End-Web-Portfolio/static/js/contact.9c8118bf.chunk.js.map",
+    "footer.db0725a3.chunk.js.map": "/Front-End-Web-Portfolio/static/js/footer.db0725a3.chunk.js.map",
     "453.ace21015.chunk.js.map": "/Front-End-Web-Portfolio/static/js/453.ace21015.chunk.js.map",
-    "274.e98c21fc.chunk.js.map": "/Front-End-Web-Portfolio/static/js/274.e98c21fc.chunk.js.map"
+    "274.570ec410.chunk.js.map": "/Front-End-Web-Portfolio/static/js/274.570ec410.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.fff1fb3c.css",
-    "static/js/main.c444230e.js"
+    "static/css/main.038d37e7.css",
+    "static/js/main.7b5ee084.js"
   ]
 }
