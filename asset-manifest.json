@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Front-End-Web-Portfolio/static/css/main.fff1fb3c.css",
-    "main.js": "/Front-End-Web-Portfolio/static/js/main.60502b2e.js",
+    "main.js": "/Front-End-Web-Portfolio/static/js/main.c444230e.js",
     "static/js/159.37e8bde7.chunk.js": "/Front-End-Web-Portfolio/static/js/159.37e8bde7.chunk.js",
     "static/js/124.28ba6c00.chunk.js": "/Front-End-Web-Portfolio/static/js/124.28ba6c00.chunk.js",
     "about.js": "/Front-End-Web-Portfolio/static/js/about.2ef1ed48.chunk.js",
@@ -9,12 +9,12 @@
     "tech.js": "/Front-End-Web-Portfolio/static/js/tech.0090cd2b.chunk.js",
     "experience.js": "/Front-End-Web-Portfolio/static/js/experience.5d50493a.chunk.js",
     "contact.js": "/Front-End-Web-Portfolio/static/js/contact.d3dd25bb.chunk.js",
-    "footer.js": "/Front-End-Web-Portfolio/static/js/footer.a0fd2909.chunk.js",
+    "footer.js": "/Front-End-Web-Portfolio/static/js/footer.0526464e.chunk.js",
     "static/js/453.ace21015.chunk.js": "/Front-End-Web-Portfolio/static/js/453.ace21015.chunk.js",
     "static/js/274.e98c21fc.chunk.js": "/Front-End-Web-Portfolio/static/js/274.e98c21fc.chunk.js",
     "index.html": "/Front-End-Web-Portfolio/index.html",
     "main.fff1fb3c.css.map": "/Front-End-Web-Portfolio/static/css/main.fff1fb3c.css.map",
-    "main.60502b2e.js.map": "/Front-End-Web-Portfolio/static/js/main.60502b2e.js.map",
+    "main.c444230e.js.map": "/Front-End-Web-Portfolio/static/js/main.c444230e.js.map",
     "159.37e8bde7.chunk.js.map": "/Front-End-Web-Portfolio/static/js/159.37e8bde7.chunk.js.map",
     "124.28ba6c00.chunk.js.map": "/Front-End-Web-Portfolio/static/js/124.28ba6c00.chunk.js.map",
     "about.2ef1ed48.chunk.js.map": "/Front-End-Web-Portfolio/static/js/about.2ef1ed48.chunk.js.map",
@@ -22,12 +22,12 @@
     "tech.0090cd2b.chunk.js.map": "/Front-End-Web-Portfolio/static/js/tech.0090cd2b.chunk.js.map",
     "experience.5d50493a.chunk.js.map": "/Front-End-Web-Portfolio/static/js/experience.5d50493a.chunk.js.map",
     "contact.d3dd25bb.chunk.js.map": "/Front-End-Web-Portfolio/static/js/contact.d3dd25bb.chunk.js.map",
-    "footer.a0fd2909.chunk.js.map": "/Front-End-Web-Portfolio/static/js/footer.a0fd2909.chunk.js.map",
+    "footer.0526464e.chunk.js.map": "/Front-End-Web-Portfolio/static/js/footer.0526464e.chunk.js.map",
     "453.ace21015.chunk.js.map": "/Front-End-Web-Portfolio/static/js/453.ace21015.chunk.js.map",
     "274.e98c21fc.chunk.js.map": "/Front-End-Web-Portfolio/static/js/274.e98c21fc.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.fff1fb3c.css",
-    "static/js/main.60502b2e.js"
+    "static/js/main.c444230e.js"
   ]
 }
