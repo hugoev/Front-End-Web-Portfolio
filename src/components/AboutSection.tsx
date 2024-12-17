@@ -1,7 +1,18 @@
 import React, { memo, useCallback, useEffect, useRef } from 'react';
 import { motion, useMotionValue, useInView } from 'framer-motion';
 
-// Memoized static components
+// Types
+interface StatCardProps {
+  value: string;
+  label: string;
+}
+
+interface TechCategoryProps {
+  title: string;
+  items: string[];
+}
+
+// Memoized Components
 const BackgroundGrid = memo(() => (
   <div className="absolute inset-0">
     <div 
@@ -24,31 +35,31 @@ const SectionHeader = memo(() => (
 ));
 
 const JourneyCard = memo(() => (
-  <div className="relative group">
-    <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-blue-400 rounded-lg opacity-50 blur" />
-    <div className="relative p-6 bg-white rounded-lg border border-blue-100">
+  <div className="relative h-full">
+    <div 
+      className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-blue-400 rounded-lg opacity-50 blur-md" 
+      style={{ clipPath: 'inset(0 0 0 0 round 8px)' }}
+    />
+    <div className="relative h-full p-6 bg-white rounded-lg border border-blue-100">
       <h3 className="text-xl font-semibold text-blue-600 mb-4">My Journey</h3>
       <p className="text-gray-600 leading-relaxed">
-        Passionate software engineer with experience in building intuitive web applications 
-        and solving complex technical challenges. Specializing in modern web technologies 
-        and full-stack development, I focus on creating efficient, scalable solutions that 
-        deliver exceptional user experiences.
+        Full-stack software engineer specializing in building innovative digital solutions with modern web technologies. 
+        Combining technical expertise with a passion for user-centric design, I create scalable applications that solve 
+        complex challenges and deliver seamless experiences. From architecting robust backend systems to crafting 
+        intuitive user interfaces, I transform ideas into high-performance solutions that drive real-world impact.
       </p>
     </div>
   </div>
 ));
 
-interface StatCardProps {
-  value: string;
-  label: string;
-}
-
-const StatCard = memo(({ value, label }: { value: string; label: string }) => (
-  <div className="relative group">
-    {/* Make sure gradient is consistent across devices */}
-    <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-blue-400 rounded-lg opacity-50 blur transition-opacity duration-300" />
-    <div className="relative p-6 bg-white rounded-lg border border-blue-100">
-      <div className="text-3xl font-bold text-gray-900 mb-2">
+const StatCard = memo(({ value, label }: StatCardProps) => (
+  <div className="relative h-full">
+    <div 
+      className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-blue-400 rounded-lg opacity-50 blur-md" 
+      style={{ clipPath: 'inset(0 0 0 0 round 8px)' }}
+    />
+    <div className="relative h-full p-6 bg-white rounded-lg border border-blue-100">
+      <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent mb-2">
         {value}
       </div>
       <div className="text-gray-600">{label}</div>
@@ -56,19 +67,14 @@ const StatCard = memo(({ value, label }: { value: string; label: string }) => (
   </div>
 ));
 
-interface TechCategoryProps {
-  title: string;
-  items: string[];
-}
-
 const TechCategory = memo(({ title, items }: TechCategoryProps) => (
   <div className="space-y-3 transform-gpu">
     <h4 className="text-gray-900 font-medium">{title}</h4>
     <div className="grid grid-cols-2 gap-3">
       {items.map((item) => (
         <div key={item} className="flex items-center space-x-2">
-          <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-          <span className="text-gray-600">{item}</span>
+          <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-blue-500" />
+          <span className="text-gray-600 truncate">{item}</span>
         </div>
       ))}
     </div>
@@ -77,18 +83,28 @@ const TechCategory = memo(({ title, items }: TechCategoryProps) => (
 
 // Static data
 const stats = [
-  { value: "3+", label: "Years Experience" },
-  { value: "100k+", label: "Lines of Code   " },
+  { value: "3+", label: "Years Building Solutions" },
+  { value: "100k+", label: "Lines of Production Code" },
 ];
 
 const technologies = [
   {
     title: "Frontend Development",
-    items: ["React", "TypeScript", "Next.js", "TailwindCSS"]
+    items: [
+      "React (Hooks, Context)",
+      "TypeScript",
+      "Next.js (SSR)",
+      "TailwindCSS",
+    ]
   },
   {
     title: "Backend & Infrastructure",
-    items: ["Node.js", "AWS", "PostgreSQL", "Docker"]
+    items: [
+      "Node.js (Express)",
+      "AWS (Cloud)",
+      "PostgreSQL (DB)",
+      "Docker"
+    ]
   }
 ];
 
@@ -122,10 +138,13 @@ const AboutSection: React.FC = () => {
 
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Personal Introduction */}
-            <div className="space-y-6 transform-gpu">
-              <JourneyCard />
+            <div className="flex flex-col space-y-6 h-full">
+              {/* Journey Card - Takes up more vertical space */}
+              <div className="flex-grow">
+                <JourneyCard />
+              </div>
 
-              {/* Key Metrics */}
+              {/* Key Metrics - Fixed height */}
               <div className="grid grid-cols-2 gap-6">
                 {stats.map((stat) => (
                   <StatCard key={stat.label} {...stat} />
@@ -134,9 +153,12 @@ const AboutSection: React.FC = () => {
             </div>
             
             {/* Technical Expertise */}
-            <div className="relative group transform-gpu">
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-blue-400 rounded-lg opacity-50 blur" />
-              <div className="relative p-8 bg-white rounded-lg border border-blue-100">
+            <div className="relative h-full">
+              <div 
+                className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-blue-400 rounded-lg opacity-50 blur-md"
+                style={{ clipPath: 'inset(0 0 0 0 round 8px)' }}
+              />
+              <div className="relative h-full p-8 bg-white rounded-lg border border-blue-100">
                 <h3 className="text-xl font-semibold text-blue-600 mb-6">Core Technologies</h3>
                 <div className="space-y-6">
                   {technologies.map((category) => (
