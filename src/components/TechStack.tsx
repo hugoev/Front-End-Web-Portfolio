@@ -96,18 +96,18 @@ const TechStackSection: React.FC = () => {
     <section
       ref={containerRef}
       id="skills"
-      className="relative min-h-screen bg-[#0A0A0A] py-24 overflow-hidden"
+      className="relative min-h-screen bg-white py-24 overflow-hidden"
     >
       {/* Background Elements */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 opacity-[0.07]"
+        <div className="absolute inset-0 opacity-[0.03]"
           style={{
-            backgroundImage: `radial-gradient(circle at center, rgba(30, 64, 175, 0.3) 2px, transparent 2px)`,
+            backgroundImage: `radial-gradient(circle at center, rgba(37, 99, 235, 0.3) 2px, transparent 2px)`,
             backgroundSize: '48px 48px'
           }}
         />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-400/5 rounded-full blur-3xl" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -117,7 +117,7 @@ const TechStackSection: React.FC = () => {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold text-white mb-4">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
             Technical Skills
           </h2>
           <div className="h-1 w-20 bg-blue-600 mx-auto rounded-full" />
@@ -125,7 +125,7 @@ const TechStackSection: React.FC = () => {
 
         {/* Category Navigation */}
         <div className="flex justify-center mb-12">
-          <div className="inline-flex bg-[#1A1A1A] rounded-full p-1">
+          <div className="inline-flex bg-gray-50 rounded-full p-1 border border-blue-100">
             {Object.keys(technologies).map((category) => (
               <button
                 key={category}
@@ -133,7 +133,7 @@ const TechStackSection: React.FC = () => {
                 className={`px-6 py-2 rounded-full transition-all duration-300 ${
                   activeCategory === category
                     ? 'bg-blue-600 text-white'
-                    : 'text-gray-400 hover:text-white'
+                    : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
                 {category}
@@ -158,24 +158,24 @@ const TechStackSection: React.FC = () => {
               className="group relative"
             >
               <div className={`absolute -inset-0.5 bg-gradient-to-r ${tech.color} rounded-2xl blur opacity-30 group-hover:opacity-60 transition duration-300`} />
-              <div className="relative bg-[#1A1A1A] rounded-2xl p-6 border border-blue-500/10">
+              <div className="relative bg-white rounded-2xl p-6 border border-blue-100">
                 {/* Icon and Title */}
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 text-blue-400 group-hover:text-blue-300 transition-colors duration-300">
+                  <div className="w-12 h-12 text-blue-600 group-hover:text-blue-700 transition-colors duration-300">
                     {tech.icon}
                   </div>
-                  <h3 className="ml-4 text-xl font-semibold text-white">
+                  <h3 className="ml-4 text-xl font-semibold text-gray-900">
                     {tech.name}
                   </h3>
                 </div>
 
                 {/* Description */}
-                <p className="text-gray-400 mb-4 text-sm">
+                <p className="text-gray-600 mb-4 text-sm">
                   {tech.description}
                 </p>
 
                 {/* Proficiency Bar */}
-                <div className="relative h-2 bg-[#0A0A0A] rounded-full overflow-hidden mb-2">
+                <div className="relative h-2 bg-gray-100 rounded-full overflow-hidden mb-2">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${tech.proficiency}%` }}
@@ -183,7 +183,7 @@ const TechStackSection: React.FC = () => {
                     className={`absolute h-full bg-gradient-to-r ${tech.color}`}
                   />
                 </div>
-                <div className="text-sm text-gray-400 text-right">
+                <div className="text-sm text-gray-600 text-right">
                   {tech.proficiency}%
                 </div>
               </div>

@@ -56,25 +56,25 @@ const Navbar: React.FC = () => {
       }`}>
         {/* Backdrop */}
         <div className={`absolute inset-0 transition-all duration-300 ${
-          isScrolled ? 'bg-[#0A0A0A]/90 backdrop-blur-md' : 'bg-transparent'
+          isScrolled ? 'bg-white/90 backdrop-blur-md shadow-sm' : 'bg-transparent'
         }`} />
 
         {/* Content */}
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between"> {/* or use: justify-around */}
             {/* Logo */}
             <a href="#home" className="group flex items-center space-x-2">
               <div className="relative w-10 h-10">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-400 rounded-xl blur-sm opacity-75 group-hover:opacity-100 transition duration-300" />
-                <div className="relative w-full h-full bg-[#0A0A0A] rounded-xl flex items-center justify-center text-white font-bold">
+                <div className="relative w-full h-full bg-white rounded-xl flex items-center justify-center text-blue-600 font-bold border border-blue-100">
                   H
                 </div>
               </div>
-              <span className="text-white font-medium">Hugo</span>
+              <span className="text-gray-900 font-medium">Hugo</span>
             </a>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-1">
+            {/* Desktop Navigation - Now Centered */}
+            <div className="hidden md:flex items-center justify-center flex-1 mx-8">
               {navLinks.map((link) => (
                 <button
                   key={link.name}
@@ -83,8 +83,8 @@ const Navbar: React.FC = () => {
                 >
                   <span className={`relative z-10 transition-colors duration-300 ${
                     activeSection === link.href.substring(1)
-                      ? 'text-blue-400'
-                      : 'text-gray-400 group-hover:text-gray-200'
+                      ? 'text-blue-600'
+                      : 'text-gray-600 group-hover:text-gray-900'
                   }`}>
                     {link.name}
                   </span>
@@ -92,35 +92,25 @@ const Navbar: React.FC = () => {
                   {/* Active/Hover Background */}
                   <div className={`absolute inset-0 transition-all duration-300 ${
                     activeSection === link.href.substring(1)
-                      ? 'bg-[#1A1A1A] rounded-xl'
-                      : 'bg-transparent group-hover:bg-[#1A1A1A] rounded-xl'
+                      ? 'bg-blue-50 rounded-xl'
+                      : 'bg-transparent group-hover:bg-gray-50 rounded-xl'
                   }`} />
                 </button>
               ))}
             </div>
 
-            {/* Contact Button */}
-            <div className="hidden md:block">
-              <a
-                href="#contact"
-                className="relative inline-flex group"
-              >
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-blue-400 rounded-xl blur opacity-75 group-hover:opacity-100 transition duration-300" />
-                <button className="relative px-6 py-2 bg-[#0A0A0A] rounded-xl text-white hover:text-blue-400 transition-colors duration-300">
-                  Contact Me
-                </button>
-              </a>
-            </div>
+            {/* Add an empty div for symmetry */}
+            <div className="w-10 h-10 hidden md:block" />
 
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="md:hidden relative w-10 h-10 flex items-center justify-center"
             >
-              <div className={`absolute w-5 h-0.5 bg-blue-400 transition-all duration-300 ${
+              <div className={`absolute w-5 h-0.5 bg-blue-600 transition-all duration-300 ${
                 isMobileMenuOpen ? 'rotate-45' : '-translate-y-1.5'
               }`} />
-              <div className={`absolute w-5 h-0.5 bg-blue-400 transition-all duration-300 ${
+              <div className={`absolute w-5 h-0.5 bg-blue-600 transition-all duration-300 ${
                 isMobileMenuOpen ? '-rotate-45' : 'translate-y-1.5'
               }`} />
             </button>
@@ -133,7 +123,7 @@ const Navbar: React.FC = () => {
         isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`}>
         {/* Backdrop */}
-        <div className="absolute inset-0 bg-[#0A0A0A]/95 backdrop-blur-xl" />
+        <div className="absolute inset-0 bg-white/95 backdrop-blur-xl" />
 
         {/* Content */}
         <div className="relative h-full flex flex-col items-center justify-center space-y-8 p-4">
@@ -143,8 +133,8 @@ const Navbar: React.FC = () => {
               onClick={() => handleNavClick(link.href)}
               className={`text-2xl font-light transition-colors duration-300 ${
                 activeSection === link.href.substring(1)
-                  ? 'text-blue-400'
-                  : 'text-gray-400 hover:text-gray-200'
+                  ? 'text-blue-600'
+                  : 'text-gray-600 hover:text-gray-900'
               }`}
             >
               {link.name}

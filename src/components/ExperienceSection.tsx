@@ -74,28 +74,28 @@ const ExperienceSection: React.FC = () => {
   ];
 
   return (
-    <section id="experience" className="relative py-20 bg-[#0A0A0A] overflow-hidden">
+    <section id="experience" className="relative py-20 bg-white overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0">
         {/* Grid Pattern */}
         <div 
-          className="absolute inset-0 opacity-10"
+          className="absolute inset-0 opacity-[0.03]"
           style={{
             backgroundImage: 
-              'linear-gradient(to right, #1E3A8A 1px, transparent 1px), linear-gradient(to bottom, #1E3A8A 1px, transparent 1px)',
+              'linear-gradient(to right, rgba(37, 99, 235, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(37, 99, 235, 0.1) 1px, transparent 1px)',
             backgroundSize: '64px 64px',
           }}
         />
 
-        {/* Gradient Orbs */}
-        <div className="absolute top-0 -right-40 w-96 h-96 bg-blue-600/20 rounded-full blur-[100px] animate-pulse"/>
-        <div className="absolute bottom-0 -left-40 w-96 h-96 bg-blue-400/20 rounded-full blur-[100px] animate-pulse delay-1000"/>
+        {/* Subtle Gradients */}
+        <div className="absolute top-0 -right-40 w-96 h-96 bg-blue-100/50 rounded-full blur-3xl"/>
+        <div className="absolute bottom-0 -left-40 w-96 h-96 bg-blue-50/50 rounded-full blur-3xl"/>
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-20">
-          <h2 className="text-4xl font-bold text-white mb-4">Professional Journey</h2>
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">Professional Journey</h2>
           <div className="h-1 w-20 bg-blue-600 mx-auto rounded-full" />
         </div>
 
@@ -111,21 +111,21 @@ const ExperienceSection: React.FC = () => {
                 transition={{ duration: 0.3, delay: index * 0.1 }}
                 className="w-full text-left"
               >
-                <div className={`relative p-6 rounded-2xl backdrop-blur-sm transition-all duration-300 ${
+                <div className={`relative p-6 rounded-2xl transition-all duration-300 ${
                   activeIndex === index 
-                    ? 'bg-[#1A1A1A] border border-blue-500/20' 
-                    : 'bg-[#1A1A1A]/50 hover:bg-[#1A1A1A] border border-transparent'
+                    ? 'bg-white shadow-lg border border-blue-100' 
+                    : 'bg-gray-50 hover:bg-white hover:shadow-md border border-transparent'
                 }`}>
                   {/* Company Info */}
                   <div className="flex items-center gap-4">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-                      activeIndex === index ? 'text-blue-400' : 'text-gray-400'
+                      activeIndex === index ? 'text-blue-600' : 'text-gray-400'
                     }`}>
                       {exp.logo}
                     </div>
                     <div>
                       <h3 className={`font-semibold transition-colors duration-300 ${
-                        activeIndex === index ? 'text-white' : 'text-gray-400'
+                        activeIndex === index ? 'text-gray-900' : 'text-gray-600'
                       }`}>
                         {exp.company}
                       </h3>
@@ -152,16 +152,13 @@ const ExperienceSection: React.FC = () => {
               transition={{ duration: 0.3 }}
               className="relative"
             >
-              {/* Glowing Border */}
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-blue-400 rounded-2xl blur opacity-50"/>
-              
-              {/* Content */}
-              <div className="relative h-full bg-[#1A1A1A] rounded-2xl p-8 border border-blue-500/20">
+              {/* Card */}
+              <div className="relative bg-white rounded-2xl p-8 border border-blue-100 shadow-lg">
                 <div className="mb-6">
-                  <h3 className="text-2xl font-bold text-white mb-2">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
                     {experiences[activeIndex].role}
                   </h3>
-                  <p className="text-gray-400">
+                  <p className="text-gray-600">
                     {experiences[activeIndex].company} · {experiences[activeIndex].period}
                   </p>
                 </div>
@@ -177,14 +174,14 @@ const ExperienceSection: React.FC = () => {
                       className="flex items-start gap-3"
                     >
                       <div className="w-1.5 h-1.5 rounded-full mt-2 bg-blue-500"/>
-                      <p className="text-gray-300">{item}</p>
+                      <p className="text-gray-600">{item}</p>
                     </motion.div>
                   ))}
                 </div>
 
                 {/* Skills */}
                 <div>
-                  <h4 className="text-sm font-semibold text-gray-400 mb-3">
+                  <h4 className="text-sm font-semibold text-gray-700 mb-3">
                     Technologies & Skills
                   </h4>
                   <div className="flex flex-wrap gap-2">
@@ -194,7 +191,7 @@ const ExperienceSection: React.FC = () => {
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.3, delay: index * 0.1 }}
-                        className="px-3 py-1 rounded-full text-sm bg-blue-500/10 text-blue-300 border border-blue-500/20"
+                        className="px-3 py-1 rounded-full text-sm bg-blue-50 text-blue-600 border border-blue-100"
                       >
                         {skill}
                       </motion.span>

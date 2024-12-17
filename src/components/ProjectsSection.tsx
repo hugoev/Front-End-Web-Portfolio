@@ -13,7 +13,7 @@ const ProjectPattern = () => (
   <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
     <defs>
       <linearGradient id="fade" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stopColor="#1E40AF" stopOpacity="0.2" />
+        <stop offset="0%" stopColor="#2563EB" stopOpacity="0.2" />
         <stop offset="100%" stopColor="#3B82F6" stopOpacity="0.1" />
       </linearGradient>
     </defs>
@@ -44,42 +44,42 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
       <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-blue-400 rounded-xl opacity-50 group-hover:opacity-100 blur transition duration-300" />
       
       {/* Card Content */}
-      <div className="relative bg-[#1A1A1A] p-4 sm:p-5 rounded-xl border border-blue-500/10 h-full">
-        {/* Project Image/Pattern - Adjusted height for mobile */}
-        <div className="relative h-32 sm:h-40 mb-4 overflow-hidden rounded-lg bg-[#0A0A0A] text-blue-500/50">
+      <div className="relative bg-white p-4 sm:p-5 rounded-xl border border-blue-100 h-full">
+        {/* Project Image/Pattern */}
+        <div className="relative h-32 sm:h-40 mb-4 overflow-hidden rounded-lg bg-gray-50 text-blue-500">
           <div className="absolute inset-0 transition-transform duration-300 group-hover:scale-110">
             <ProjectPattern />
           </div>
           <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-transparent opacity-0 group-hover:opacity-100 transition duration-300" />
         </div>
 
-        {/* Project Info - Improved mobile text sizing */}
-        <h3 className="text-lg sm:text-xl font-semibold text-white mb-2">
+        {/* Project Info */}
+        <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
           {project.title}
         </h3>
-        <p className="text-sm text-gray-400 mb-3 line-clamp-2">
+        <p className="text-sm text-gray-600 mb-3 line-clamp-2">
           {project.description}
         </p>
 
-        {/* Tech Stack - Better wrapping on mobile */}
+        {/* Tech Stack */}
         <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4">
           {project.tech.map((tech) => (
             <span
               key={tech}
-              className="text-xs px-2 py-1 bg-blue-500/10 text-blue-400 rounded-full whitespace-nowrap"
+              className="text-xs px-2 py-1 bg-blue-50 text-blue-600 rounded-full whitespace-nowrap border border-blue-100"
             >
               {tech}
             </span>
           ))}
         </div>
 
-        {/* Link or Status - Touch-friendly sizing */}
+        {/* Link or Status */}
         {project.status === 'live' ? (
           <a
             href={project.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center text-sm text-blue-400 hover:text-blue-300 transition duration-200 py-1"
+            className="inline-flex items-center text-sm text-blue-600 hover:text-blue-700 transition duration-200 py-1"
           >
             View Project
             <svg
@@ -97,7 +97,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
             </svg>
           </a>
         ) : (
-          <span className="inline-flex items-center text-sm text-blue-400/70 py-1">
+          <span className="inline-flex items-center text-sm text-blue-600/70 py-1">
             Coming Soon
             <svg
               className="w-4 h-4 ml-1"
@@ -143,15 +143,15 @@ const projects: Project[] = [
 
 export default memo(function ProjectsSection() {
   return (
-    <section id="projects" className="bg-[#0A0A0A] py-12 sm:py-20">
+    <section id="projects" className="bg-white py-12 sm:py-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header - Adjusted for mobile */}
+        {/* Section Header */}
         <div className="text-center mb-8 sm:mb-12">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">Featured Projects</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Featured Projects</h2>
           <div className="h-1 w-16 sm:w-20 bg-blue-600 mx-auto rounded-full" />
         </div>
 
-        {/* Project Cards Grid - Improved mobile layout */}
+        {/* Project Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {projects.map((project, index) => (
             <ProjectCard key={project.title} project={project} index={index} />
