@@ -58,18 +58,18 @@ const staggerContainer = {
 const StatCard = ({ metric }: StatCardProps) => (
   <motion.div 
     whileHover={{ y: -2 }}
-    className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 dark:border-gray-700"
+    className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100"
   >
     <div className="flex items-start gap-4">
-      <div className="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+      <div className="p-2 bg-blue-50 rounded-lg">
         {metric.icon}
       </div>
       <div>
         <div className="font-bold text-3xl bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
           {metric.value}
         </div>
-        <div className="text-gray-600 dark:text-gray-300 font-medium mt-1">{metric.label}</div>
-        <div className="text-gray-500 dark:text-gray-400 text-sm mt-2">{metric.description}</div>
+        <div className="text-gray-600 font-medium mt-1">{metric.label}</div>
+        <div className="text-gray-500 text-sm mt-2">{metric.description}</div>
       </div>
     </div>
   </motion.div>
@@ -93,14 +93,14 @@ const TechStack = ({ categories }: TechStackProps) => (
         }}
       >
         <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+          <div className="p-2 bg-blue-50 rounded-lg">
             {category.icon}
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+            <h3 className="text-lg font-semibold text-gray-900">
               {category.title}
             </h3>
-            <p className="text-gray-500 dark:text-gray-400 text-sm">
+            <p className="text-gray-500 text-sm">
               {category.description}
             </p>
           </div>
@@ -109,19 +109,19 @@ const TechStack = ({ categories }: TechStackProps) => (
           {category.items.map((item) => (
             <div 
               key={item.name}
-              className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
             >
-              <div className="flex items-center gap-3 text-gray-900 dark:text-white font-medium">
-                {item.icon && <span className="text-blue-600 dark:text-blue-400">{item.icon}</span>}
+              <div className="flex items-center gap-3 text-gray-900 font-medium">
+                {item.icon && <span className="text-blue-600">{item.icon}</span>}
                 <span>{item.name}</span>
               </div>
               {item.description && (
-                <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
+                <p className="text-gray-500 text-sm mt-1">
                   {item.description}
                 </p>
               )}
               {item.proficiency && (
-                <div className="mt-2 h-1.5 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                <div className="mt-2 h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
                   <div 
                     className="h-full bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full"
                     style={{ width: `${item.proficiency}%` }}
@@ -142,13 +142,13 @@ const metrics: Metric[] = [
     value: "3+", 
     label: "Years Experience",
     description: "Building scalable web applications with modern technologies",
-    icon: <Award className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+    icon: <Award className="w-6 h-6 text-blue-600" />
   },
   { 
     value: "100k+", 
     label: "Lines of Code",
     description: "Written across production applications and open-source projects",
-    icon: <GitBranch className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+    icon: <GitBranch className="w-6 h-6 text-blue-600" />
   },
 ];
 
@@ -156,7 +156,7 @@ const techCategories: TechCategory[] = [
   {
     title: "Frontend Development",
     description: "Building responsive and performant user interfaces",
-    icon: <Code2 className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
+    icon: <Code2 className="w-6 h-6 text-blue-600" />,
     items: [
       { 
         name: "React & TypeScript",
@@ -183,7 +183,7 @@ const techCategories: TechCategory[] = [
   {
     title: "Backend Development",
     description: "Creating secure and scalable server applications",
-    icon: <Server className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
+    icon: <Server className="w-6 h-6 text-blue-600" />,
     items: [
       { 
         name: "Node.js",
@@ -211,7 +211,7 @@ const techCategories: TechCategory[] = [
 
 const AboutSection = () => {
   return (
-    <section className="py-24 bg-gray-50 dark:bg-gray-900" id="about">
+    <section className="py-24 bg-gray-50" id="about">
       <motion.div 
         className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
         initial="hidden"
@@ -221,7 +221,7 @@ const AboutSection = () => {
       >
         {/* Header */}
         <motion.div variants={fadeIn} className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">
             About Me
           </h2>
           <div className="h-1 w-20 bg-gradient-to-r from-blue-600 to-indigo-600 mx-auto rounded-full" />
@@ -231,18 +231,18 @@ const AboutSection = () => {
           {/* Left Column */}
           <motion.div variants={fadeIn} className="space-y-8">
             {/* Bio */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-sm border border-gray-100 dark:border-gray-700">
-              <h3 className="text-xl font-semibold text-blue-600 dark:text-blue-400 mb-4">
+            <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-100">
+              <h3 className="text-xl font-semibold text-blue-600 mb-4">
                 My Journey
               </h3>
-              <div className="prose dark:prose-invert">
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+              <div className="prose">
+                <p className="text-gray-600 leading-relaxed">
                   As a full-stack developer, I'm deeply passionate about crafting innovative 
                   digital solutions that make a meaningful impact. My approach combines technical 
                   expertise with a strong focus on user experience, ensuring that every project 
                   I undertake not only meets technical requirements but exceeds user expectations.
                 </p>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed mt-4">
+                <p className="text-gray-600 leading-relaxed mt-4">
                   I specialize in building scalable web applications using modern technologies 
                   and best practices. Whether it's optimizing performance, implementing complex 
                   features, or solving challenging problems, I'm committed to delivering 
@@ -261,8 +261,8 @@ const AboutSection = () => {
 
           {/* Right Column */}
           <motion.div variants={fadeIn}>
-            <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-sm border border-gray-100 dark:border-gray-700">
-              <h3 className="text-xl font-semibold text-blue-600 dark:text-blue-400 mb-8">
+            <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-100">
+              <h3 className="text-xl font-semibold text-blue-600 mb-8">
                 Technical Expertise
               </h3>
               <TechStack categories={techCategories} />
