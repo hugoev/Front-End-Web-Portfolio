@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 interface Technology {
   readonly name: string;
   readonly color: string;
+  readonly icon: string;
 }
 
 interface MousePosition {
@@ -20,10 +21,10 @@ interface SocialLink {
 
 // Static data
 const TECHNOLOGIES: readonly Technology[] = [
-  { name: 'React', color: 'from-blue-400 to-blue-600' },
-  { name: 'TypeScript', color: 'from-blue-500 to-blue-700' },
-  { name: 'Node.js', color: 'from-blue-400 to-blue-500' },
-  { name: 'Next.js', color: 'from-blue-300 to-blue-500' }
+  { name: 'React', color: 'from-cyan-400 to-blue-500', icon: '⚛️' },
+  { name: 'TypeScript', color: 'from-blue-400 to-indigo-500', icon: '📝' },
+  { name: 'Node.js', color: 'from-green-400 to-emerald-500', icon: '🚀' },
+  { name: 'Next.js', color: 'from-gray-700 to-gray-900', icon: '▲' }
 ];
 
 const SOCIAL_LINKS: readonly SocialLink[] = [
@@ -50,219 +51,208 @@ const SOCIAL_LINKS: readonly SocialLink[] = [
 // Animation variants
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 }
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
 };
 
-const fadeIn = {
+const containerVariants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1 }
+  visible: { 
+    opacity: 1,
+    transition: { 
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
 };
 
-// Optimized components
-const FeatureCard = memo(({ tech, mousePosition }: { tech: string; mousePosition: MousePosition }) => {
+// Components
+const FeatureCard = memo(({ tech, mousePosition }: { tech: Technology; mousePosition: MousePosition }) => {
   const shouldReduceMotion = useReducedMotion();
-  const rotateX = shouldReduceMotion ? 0 : (mousePosition.y - 0.5) * 20;
-  const rotateY = shouldReduceMotion ? 0 : (mousePosition.x - 0.5) * 20;
+  const rotateX = shouldReduceMotion ? 0 : (mousePosition.y - 0.5) * 8;
+  const rotateY = shouldReduceMotion ? 0 : (mousePosition.x - 0.5) * 8;
 
   return (
-    <div
-      className="relative w-full aspect-[4/3] transform-gpu"
-      style={{
-        perspective: '1000px',
-        transformStyle: 'preserve-3d'
-      }}
-    >
+    <div className="relative w-full min-h-[600px] lg:min-h-[700px] transform-gp id=home">
       <motion.div
-        className="relative w-full h-full"
+        className="relative w-full h-full rounded-2xl bg-white shadow-2xl"
         style={{
           transformStyle: 'preserve-3d',
           transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
         }}
-        transition={{ type: "spring", stiffness: 100, damping: 30 }}
+        transition={{ type: "spring", stiffness: 150, damping: 30 }}
       >
-        <div className="absolute inset-0 bg-white rounded-2xl border border-blue-100 shadow-lg overflow-hidden">
-          <div className="relative h-full p-8 flex flex-col justify-between">
-            <div className="space-y-6">
-              <motion.div
-                key={tech}
-                initial="hidden"
-                animate="visible"
-                variants={fadeInUp}
-                className="space-y-2"
-              >
-                <div className="text-sm text-blue-600 font-medium tracking-wider">CURRENT FOCUS</div>
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-blue-50 rounded-xl">
-                    <svg className="w-6 h-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </div>
-                  <span className="text-2xl font-bold text-gray-900">
-                    {tech}
-                  </span>
-                </div>
-              </motion.div>
+        {/* Gradient Border */}
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-gray-200 via-gray-100 to-white opacity-50" />
+        
+        {/* Main Content */}
+        <div className="relative h-full p-6 lg:p-8 flex flex-col">
+          {/* Top Section */}
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <div className="px-3 lg:px-4 py-1.5 rounded-full bg-gray-50 border border-gray-100">
+                <span className="text-sm font-medium text-gray-500">EXPERTISE</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                <span className="text-sm text-gray-400">Available</span>
+              </div>
             </div>
+            
+            <div>
+              <motion.div 
+                className={`text-3xl lg:text-4xl font-bold bg-gradient-to-r ${tech.color} bg-clip-text text-transparent mb-2`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                {tech.name}
+              </motion.div>
+              <p className="text-gray-500 leading-relaxed text-sm lg:text-base">
+                Specialized in building scalable applications with modern web technologies 
+                and best practices.
+              </p>
+            </div>
+          </div>
 
-            <div className="grid grid-cols-2 gap-4 mt-8">
+          {/* Skills Grid */}
+          <div className="mt-6 lg:mt-8 flex-grow">
+            <div className="grid grid-cols-2 gap-3 lg:gap-4">
               {[
-                { name: 'Frontend', icon: '⚡️' },
-                { name: 'Backend', icon: '🛠' },
-                { name: 'Cloud', icon: '☁️' },
-                { name: 'UI/UX', icon: '🎨' }
-              ].map((skill, index) => (
+                { 
+                  name: 'Frontend Development', 
+                  icon: (
+                    <svg className="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                    </svg>
+                  )
+                },
+                { 
+                  name: 'Backend Architecture', 
+                  icon: (
+                    <svg className="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+                    </svg>
+                  )
+                },
+                { 
+                  name: 'Cloud Infrastructure', 
+                  icon: (
+                    <svg className="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                    </svg>
+                  )
+                },
+                { 
+                  name: 'DevOps & CI/CD', 
+                  icon: (
+                    <svg className="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+                    </svg>
+                  )
+                }
+              ].map((skill) => (
                 <motion.div
                   key={skill.name}
-                  variants={fadeIn}
-                  initial="hidden"
-                  animate="visible"
-                  transition={{
-                    duration: 0.3,
-                    delay: index * 0.1
-                  }}
-                  whileHover={{ scale: 1.05 }}
-                  className="group relative px-4 py-3 bg-blue-50 rounded-xl border border-blue-100 hover:border-blue-200 transition-colors duration-300 transform-gpu"
+                  whileHover={{ scale: 1.02, backgroundColor: 'rgb(249, 250, 251)' }}
+                  className="p-3 lg:p-4 rounded-xl border border-gray-100 bg-white transition-colors duration-200"
                 >
-                  <div className="relative flex items-center gap-2">
-                    <span className="text-lg">{skill.icon}</span>
-                    <span className="text-sm text-gray-600 group-hover:text-gray-900 transition-colors duration-300">
-                      {skill.name}
-                    </span>
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 rounded-lg bg-blue-50">
+                      {skill.icon}
+                    </div>
+                    <div>
+                      <div className="font-medium text-gray-900 text-sm lg:text-base">{skill.name}</div>
+                    </div>
                   </div>
                 </motion.div>
               ))}
             </div>
+          </div>
 
-            <div className="mt-6 pt-6 border-t border-blue-100">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                  <span className="text-sm text-blue-600">Open to Opportunities</span>
-                </div>
-                <span className="text-sm text-gray-500">San Antonio, TX</span>
+          {/* Bottom Section */}
+          <div className="mt-6 pt-6 border-t border-gray-100">
+            <div className="flex items-center justify-between text-sm text-gray-500">
+              <div>San Antonio, TX</div>
+              <div className="flex items-center gap-2">
+                <span>View Full Profile</span>
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+                </svg>
               </div>
             </div>
           </div>
         </div>
-
-        <div 
-          className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-4/5 h-12 bg-blue-500/5 blur-xl rounded-full transform-gpu"
-          style={{
-            transform: `translateX(-50%) translateZ(-100px) rotateX(90deg)`
-          }}
-        />
       </motion.div>
     </div>
   );
 });
-FeatureCard.displayName = 'FeatureCard';
-const Header = memo(() => {
-  const shouldReduceMotion = useReducedMotion();
 
-  return (
-    <div className="space-y-6">
-      <motion.div
-        variants={fadeInUp}
-        initial="hidden"
-        animate="visible"
-        transition={{ duration: 0.5 }}
-        className="inline-block"
-      >
-        <div className="text-sm text-blue-600 font-medium tracking-wider mb-2">
+const Header = memo(() => (
+  <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-4 sm:space-y-6">
+    <motion.div variants={fadeInUp} className="space-y-2 sm:space-y-3">
+      <div className="inline-block px-3 sm:px-4 py-1 rounded-full bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-100">
+        <span className="text-sm font-medium bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
           SOFTWARE ENGINEER
-        </div>
-        <h1 className="text-6xl lg:text-7xl font-bold">
-          <span className="text-gray-900">Hello, I'm</span>
-          <br />
-          <motion.span
-            className="bg-gradient-to-r from-blue-600 to-blue-400 text-transparent bg-clip-text"
-          >
-            Hugo Villarreal
-          </motion.span>
-        </h1>
-      </motion.div>
+        </span>
+      </div>
+      <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold">
+        <span className="text-gray-900">Hello, I'm</span>
+        <br />
+        <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+          Hugo Villarreal
+        </span>
+      </h1>
+    </motion.div>
 
-      <motion.p
-        variants={fadeIn}
-        initial="hidden"
-        animate="visible"
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="text-gray-600 text-lg max-w-xl"
-      >
-        Crafting exceptional digital experiences through innovative solutions
-        and cutting-edge technologies.
-      </motion.p>
-    </div>
-  );
-});
-Header.displayName = 'Header';
+    <motion.p variants={fadeInUp} className="text-gray-600 text-base sm:text-lg max-w-xl leading-relaxed">
+      Crafting exceptional digital experiences through innovative solutions
+      and cutting-edge technologies.
+    </motion.p>
+  </motion.div>
+));
 
 const TechStack = memo(({ technologies, activeTech }: {
   technologies: readonly Technology[];
   activeTech: number;
 }) => (
-  <div className="space-y-4">
-    <div className="text-sm text-gray-600 font-medium">TECH STACK</div>
+  <motion.div variants={fadeInUp} className="space-y-4">
+    <div className="text-sm text-gray-500 font-medium">TECH STACK</div>
     <div className="flex flex-wrap gap-3">
       {technologies.map((tech, index) => (
         <motion.div
           key={tech.name}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-            background: index === activeTech ? 'rgba(59, 130, 246, 0.1)' : 'rgba(243, 244, 246, 1)'
-          }}
-          transition={{ duration: 0.2 }}
-          className={`px-4 py-2 rounded-full transform-gpu ${
-            index === activeTech ? 'ring-2 ring-blue-200' : ''
+          whileHover={{ scale: 1.05 }}
+          className={`px-4 py-2 rounded-xl transition-all duration-300 ${
+            index === activeTech 
+              ? 'bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-100' 
+              : 'bg-gray-50 border border-gray-100'
           }`}
         >
-          <span className={`text-sm bg-gradient-to-r ${tech.color} bg-clip-text text-transparent font-medium`}>
+          <span className={`text-sm font-medium bg-gradient-to-r ${tech.color} bg-clip-text text-transparent`}>
             {tech.name}
           </span>
         </motion.div>
       ))}
     </div>
-  </div>
+  </motion.div>
 ));
-TechStack.displayName = 'TechStack';
 
 const SocialLinks = memo(({ links }: { links: readonly SocialLink[] }) => (
-  <div className="flex space-x-4">
+  <div className="flex space-x-3">
     {links.map((social) => (
       <motion.a
         key={social.name}
         href={social.href}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={`Visit ${social.name}`}
         whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="p-3 rounded-xl text-gray-400 hover:text-blue-500 hover:bg-blue-50 transition-colors duration-300 transform-gpu"
+        className="p-3 rounded-xl text-gray-400 hover:text-blue-500 hover:bg-blue-50 border border-transparent hover:border-blue-100 transition-all duration-300"
       >
         {social.icon}
       </motion.a>
     ))}
   </div>
 ));
-SocialLinks.displayName = 'SocialLinks';
-
-const BackgroundGrid = memo(({ mousePosition }: { mousePosition: MousePosition }) => (
-  <div className="absolute inset-0 opacity-[0.03]">
-    <div
-      className="h-full w-full transform-gpu"
-      style={{
-        backgroundImage: 
-          `linear-gradient(to right, rgba(37, 99, 235, 0.1) 1px, transparent 1px),
-           linear-gradient(to bottom, rgba(37, 99, 235, 0.1) 1px, transparent 1px)`,
-        backgroundSize: '40px 40px',
-        transform: `translate3d(${mousePosition.x * 20}px, ${mousePosition.y * 20}px, 0)`
-      }}
-    />
-  </div>
-));
-BackgroundGrid.displayName = 'BackgroundGrid';
 
 const HeroSection: React.FC = () => {
   const [mousePosition, setMousePosition] = useState<MousePosition>({ x: 0.5, y: 0.5 });
@@ -291,61 +281,65 @@ const HeroSection: React.FC = () => {
 
     return () => clearInterval(interval);
   }, []);
+
   return (
     <motion.section
-      id="home"
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative min-h-screen flex items-center justify-center bg-white overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-white overflow-hidden pt-16 pb-8"
       initial="hidden"
       animate="visible"
-      variants={fadeIn}
+      variants={fadeInUp}
+      id="home"
     >
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        <BackgroundGrid mousePosition={mousePosition} />
-      </div>
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-12">
+      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
+          {/* Left Column - Always visible */}
+          <div className="space-y-8 sm:space-y-12 max-w-2xl mx-auto lg:max-w-none">
             <Header />
-            <TechStack technologies={TECHNOLOGIES} activeTech={activeTech} />
-            <div className="space-y-8">
-              <motion.div
-                variants={fadeInUp}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                className="flex flex-wrap gap-4"
-              >
-                <a
+            <div className="hidden sm:block">
+              <TechStack technologies={TECHNOLOGIES} activeTech={activeTech} />
+            </div>
+            <div className="space-y-6 sm:space-y-8">
+              <motion.div variants={fadeInUp} className="flex flex-wrap gap-3 sm:gap-4">
+                <motion.a
                   href="#projects"
-                  className="group relative overflow-hidden px-8 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-300 transform-gpu"
-                  role="button"
-                  aria-label="View Projects"
+                  whileHover={{ scale: 1.02 }}
+                  className="w-full sm:w-auto px-6 sm:px-8 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-medium shadow-lg shadow-blue-200 text-center"
                 >
-                  <span className="relative font-medium">View Projects</span>
-                </a>
+                  View Projects
+                </motion.a>
                 
-                <a
+                <motion.a
                   href="#contact"
-                  className="px-8 py-3 rounded-lg border border-blue-200 text-blue-600 hover:bg-blue-50 transition-all duration-300 transform-gpu"
-                  role="button"
-                  aria-label="Contact Me"
+                  whileHover={{ scale: 1.02 }}
+                  className="w-full sm:w-auto px-6 sm:px-8 py-3 rounded-xl border border-gray-200 text-gray-600 hover:text-blue-600 hover:border-blue-200 font-medium transition-colors duration-300 text-center"
                 >
-                  <span className="font-medium">Contact Me</span>
-                </a>
+                  Contact Me
+                </motion.a>
               </motion.div>
               <SocialLinks links={SOCIAL_LINKS} />
             </div>
           </div>
 
-          <motion.div
-            variants={fadeInUp}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="hidden lg:block transform-gpu"
+          {/* Right Column - Feature Card */}
+          <motion.div 
+            variants={fadeInUp} 
+            className="hidden lg:block w-full max-w-2xl mx-auto lg:max-w-none"
           >
-            <FeatureCard tech={TECHNOLOGIES[activeTech].name} mousePosition={mousePosition} />
+            <AnimatePresence mode="wait">
+              <FeatureCard 
+                key={TECHNOLOGIES[activeTech].name}
+                tech={TECHNOLOGIES[activeTech]} 
+                mousePosition={mousePosition} 
+              />
+            </AnimatePresence>
           </motion.div>
+
+          {/* Mobile Tech Stack - Only visible on small screens */}
+          <div className="block sm:hidden">
+            <TechStack technologies={TECHNOLOGIES} activeTech={activeTech} />
+          </div>
         </div>
       </div>
     </motion.section>

@@ -3,66 +3,65 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 interface Experience {
   company: string;
-  logo: string | JSX.Element;
+  logo: JSX.Element;
   role: string;
   period: string;
   description: string[];
   skills: string[];
 }
 
-// Experiences data moved outside component
 const experiences: Experience[] = [
   {
     company: "Apple",
     logo: (
-      <svg className="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83z"/>
+      <svg viewBox="0 0 384 512" className="w-full h-full">
+        <path fill="currentColor" d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/>
       </svg>
     ),
-    role: "Technical Support",
+    role: "Apple Support College Program",
     period: "2023 - Present",
     description: [
-      "Provide expert technical support for Apple products and services",
-      "Resolve complex hardware and software issues effectively",
-      "Maintain high customer satisfaction through clear communication",
-      "Collaborate with team members to tackle technical problems"
+      "Provided personalized technical support to customers, resolving complex issues across iOS, macOS, and Apple hardware.",
+      "Streamlined troubleshooting processes, reducing average resolution time by 30%.",
+      "Maintained high customer satisfaction ratings through empathetic communication and problem-solving.",
+      "Collaborated with Apple teams to report software and hardware bugs, contributing to continuous product improvement."
     ],
-    skills: ["Technical Support", "Problem Solving", "iOS", "macOS"]
+    skills: ["Technical Support", "Problem Solving", "iOS", "macOS", "Automation", "Customer Success"]
   },
   {
     company: "Software Engineer",
     logo: (
-      <svg className="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/>
+      <svg viewBox="0 0 640 512" className="w-full h-full">
+        <path fill="currentColor" d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3L562.7 256l-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/>
       </svg>
     ),
     role: "Software Engineer",
     period: "2023 - Present",
     description: [
-      "Developed custom web applications for clients",
-      "Implemented full-stack solutions from concept to deployment",
-      "Managed project lifecycles and client communication",
-      "Created scalable and maintainable code"
+      "Developed and deployed custom web applications for clients using React, Next.js, and TypeScript.",
+      "Designed scalable backend systems with Python and Django to support dynamic client needs.",
+      "Managed the full software development lifecycle, including requirements gathering, implementation, testing, and deployment.",
+      "Optimized application performance and ensured seamless integration with third-party APIs.",
+      "Provided ongoing maintenance and support, delivering high-quality solutions tailored to client requirements."
     ],
-    skills: ["React", "Next.js", "TypeScript", "PostgreSQL"]
+    skills: ["React", "Next.js", "TypeScript", "PostgreSQL", "Python", "Django", "REST APIs", "AWS",]
   },
   {
     company: "UTSA",
     logo: (
-      <svg className="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 3L1 9l11 6l9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82Z"/>
+      <svg viewBox="0 0 640 512" className="w-full h-full">
+        <path fill="currentColor" d="M320 32c-8.1 0-16.1 1.4-23.7 4.1L15.8 137.4C6.3 140.9 0 149.9 0 160s6.3 19.1 15.8 22.6l57.9 20.9C57.3 229.3 48 259.8 48 291.9v28.1c0 28.4-10.8 57.7-22.3 80.8c-6.5 13-13.9 25.8-22.5 37.6C0 442.7-.9 448.3 .9 453.4s6 8.9 11.2 10.2l64 16c4.2 1.1 8.7 .3 12.4-2s6.3-6.1 7.1-10.4c8.6-42.8 4.3-81.2-2.1-108.7C90.3 344.3 86 329.8 80 316.5V291.9c0-30.2 10.2-58.7 27.9-81.5c12.9-15.5 29.6-28 49.2-35.7l157-61.7c8.2-3.2 17.5 .8 20.7 9s-.8 17.5-9 20.7l-157 61.7c-12.4 4.9-23.3 12.4-32.2 21.6l159.6 57.6c7.6 2.7 15.6 4.1 23.7 4.1s16.1-1.4 23.7-4.1L624.2 182.6c9.5-3.4 15.8-12.5 15.8-22.6s-6.3-19.1-15.8-22.6L343.7 36.1C336.1 33.4 328.1 32 320 32zM128 408c0 35.3 86 72 192 72s192-36.7 192-72L496.7 262.6 354.5 314c-11.1 4-22.8 6-34.5 6s-23.5-2-34.5-6L143.3 262.6 128 408z"/>
       </svg>
     ),
     role: "Research Assistant",
     period: "2023 - 2024",
     description: [
-      "Conducted research in computer science",
-      "Assisted in data collection and analysis",
-      "Collaborated with faculty and researchers",
-      "Contributed to academic publications"
-    ],
-    skills: ["Research", "Data Analysis", "Python", "Machine Learning"]
+      "Researched data security, focusing on identifying data leaks in Android devices.",
+      "Developed Python scripts to detect potential data leaks, improving detection efficiency by 30%.",
+      "Collaborated with faculty and researchers to design experiments, analyze data, and contribute to a research paper for publication.",
+      "Presented findings at a departmental seminar, effectively communicating complex methodologies and receiving positive feedback for clarity."
+    ],    
+    skills: ["Research", "Python", "Data Security", "Automation", "Data Analysis", "Android", "Scientific Writing", "Problem Solving"]
   }
 ];
 
@@ -78,67 +77,82 @@ const ExperienceButton = memo(({
   <motion.button
     onClick={onClick}
     initial={false}
-    className="w-full text-left"
+    layout
+    className="w-full text-left group relative"
   >
-    <div className={`relative p-6 rounded-2xl transition-all ${
+    <div className={`relative px-8 py-6 rounded-xl transition-all duration-300 ${
       isActive 
-        ? 'bg-white shadow-lg border border-blue-100' 
-        : 'bg-gray-50 hover:bg-white hover:shadow-md border border-transparent'
+        ? 'bg-gradient-to-r from-slate-900 to-slate-800 shadow-xl' 
+        : 'bg-white hover:bg-slate-50'
     }`}>
-      <div className="flex items-center gap-4">
-        <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
-          isActive ? 'text-blue-600' : 'text-gray-400'
+      <div className="flex items-center gap-5">
+        <div className={`w-14 h-14 rounded-lg flex items-center justify-center p-3 transition-colors duration-300 ${
+          isActive ? 'bg-slate-800 text-white' : 'bg-slate-100 text-slate-400 group-hover:bg-slate-200'
         }`}>
           {experience.logo}
         </div>
         <div>
-          <h3 className={`font-semibold ${
-            isActive ? 'text-gray-900' : 'text-gray-600'
+          <h3 className={`font-semibold transition-colors duration-300 ${
+            isActive ? 'text-white' : 'text-slate-700 group-hover:text-slate-900'
           }`}>
             {experience.company}
           </h3>
-          <p className="text-sm text-gray-500">{experience.period}</p>
+          <p className={`text-sm transition-colors duration-300 ${
+            isActive ? 'text-slate-400' : 'text-slate-500'
+          }`}>
+            {experience.period}
+          </p>
         </div>
       </div>
+      {/* Blue Line Indicator */}
       {isActive && (
-        <div className="absolute -right-[2px] top-1/2 -translate-y-1/2 w-[2px] h-12 bg-gradient-to-b from-blue-400 to-blue-600"/>
+        <div
+          className="absolute -left-1 top-1/2 -translate-y-1/2 w-1 h-16 bg-gradient-to-b from-blue-400 to-indigo-600"
+        />
       )}
     </div>
   </motion.button>
 ));
 
+
 const ExperienceDetails = memo(({ experience }: { experience: Experience }) => (
-  <div className="relative bg-white rounded-2xl p-8 border border-blue-100 shadow-lg">
-    <div className="mb-6">
-      <h3 className="text-2xl font-bold text-gray-900 mb-2">
+  <div className="relative bg-white rounded-xl p-8 h-full">
+    <div className="mb-8">
+      <div className="inline-flex items-center px-4 py-2 rounded-full border border-slate-200 mb-6">
+        <div className="w-6 h-6 text-slate-600 mr-2">
+          {experience.logo}
+        </div>
+        <span className="text-sm font-medium text-slate-700">{experience.company}</span>
+      </div>
+      <h3 className="text-3xl font-bold text-slate-900 mb-3">
         {experience.role}
       </h3>
-      <p className="text-gray-600">
-        {experience.company} · {experience.period}
+      <p className="text-blue-600 font-medium">
+        {experience.period}
       </p>
     </div>
 
-    <div className="space-y-4 mb-8">
+    <div className="space-y-5 mb-10">
       {experience.description.map((item, index) => (
         <div 
           key={index}
-          className="flex items-start gap-3"
+          className="flex items-start gap-4"
         >
-          <div className="w-1.5 h-1.5 rounded-full mt-2 bg-blue-500"/>
-          <p className="text-gray-600">{item}</p>
+          <div className="w-2 h-2 rounded-full mt-2 bg-gradient-to-r from-blue-600 to-indigo-600"/>
+          <p className="text-slate-600 leading-relaxed">{item}</p>
         </div>
       ))}
     </div>
 
     <div>
-      <h4 className="text-sm font-semibold text-gray-700 mb-3">
-        Technologies & Skills
+      <h4 className="text-lg font-semibold text-slate-900 mb-4">
+        Key Technologies
       </h4>
       <div className="flex flex-wrap gap-2">
         {experience.skills.map((skill, index) => (
           <span
             key={index}
-            className="px-3 py-1 rounded-full text-sm bg-blue-50 text-blue-600 border border-blue-100"
+            className="px-4 py-2 rounded-lg text-sm font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors duration-200"
           >
             {skill}
           </span>
@@ -148,7 +162,7 @@ const ExperienceDetails = memo(({ experience }: { experience: Experience }) => (
   </div>
 ));
 
-const ExperienceSection: React.FC = () => {
+const ExperienceSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handleExperienceClick = useCallback((index: number) => {
@@ -156,28 +170,34 @@ const ExperienceSection: React.FC = () => {
   }, []);
 
   return (
-    <section id="experience" className="relative py-20 bg-white overflow-hidden">
-      <div className="absolute inset-0">
+    <section id="experience" className="relative py-32 bg-slate-50 overflow-hidden">
+      {/* Refined Background */}
+      <div className="absolute inset-0 pointer-events-none">
         <div 
           className="absolute inset-0 opacity-[0.03]"
           style={{
-            backgroundImage: 
-              'linear-gradient(to right, rgba(37, 99, 235, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(37, 99, 235, 0.1) 1px, transparent 1px)',
-            backgroundSize: '64px 64px',
+            backgroundImage: 'radial-gradient(circle at 1px 1px, rgb(51 65 85) 1px, transparent 0)',
+            backgroundSize: '48px 48px',
           }}
         />
-        <div className="absolute top-0 -right-40 w-96 h-96 bg-blue-100/50 rounded-full blur-3xl"/>
-        <div className="absolute bottom-0 -left-40 w-96 h-96 bg-blue-50/50 rounded-full blur-3xl"/>
+        <div className="absolute -top-40 -right-40 w-[800px] h-[800px] bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full opacity-70 blur-3xl"/>
+        <div className="absolute -bottom-40 -left-40 w-[800px] h-[800px] bg-gradient-to-br from-slate-50 to-blue-50 rounded-full opacity-70 blur-3xl"/>
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-20">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Professional Journey</h2>
-          <div className="h-1 w-20 bg-blue-600 mx-auto rounded-full" />
+        {/* Refined Header */}
+        <div className="text-center max-w-3xl mx-auto mb-24">
+          <h2 className="text-sm font-semibold text-blue-600 tracking-wider uppercase mb-3">
+            Professional Journey
+          </h2>
+          <h3 className="text-4xl font-bold text-slate-900 sm:text-5xl mb-6">
+            Experience & Achievements
+          </h3>
+          <div className="w-20 h-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 mx-auto rounded-full" />
         </div>
 
-        <div className="grid lg:grid-cols-[1fr,2fr] gap-8 lg:gap-12">
-          <div className="relative space-y-4">
+        <div className="grid lg:grid-cols-[400px,1fr] gap-8 lg:gap-16">
+          <div className="space-y-3">
             {experiences.map((exp, index) => (
               <ExperienceButton
                 key={exp.company}
@@ -191,10 +211,11 @@ const ExperienceSection: React.FC = () => {
           <AnimatePresence mode="wait">
             <motion.div
               key={activeIndex}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="relative rounded-xl shadow-xl shadow-slate-200/50 border border-slate-200/80"
             >
               <ExperienceDetails experience={experiences[activeIndex]} />
             </motion.div>

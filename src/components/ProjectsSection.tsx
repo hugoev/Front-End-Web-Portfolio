@@ -1,168 +1,256 @@
 import React, { memo } from 'react';
 import { motion, LazyMotion, domAnimation } from 'framer-motion';
 
+// Types
 interface Project {
   title: string;
   description: string;
   tech: string[];
   status: 'coming-soon' | 'live';
   link?: string;
+  category: 'Web App' | 'Mobile App' | 'Desktop App';
 }
 
-// Fixed ProjectPattern component
-const ProjectPattern: React.FC = () => (
-  <svg className="w-full h-full transform-gpu" viewBox="0 0 100 100" preserveAspectRatio="none">
-    <defs>
-      <linearGradient id="fade" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stopColor="#2563EB" stopOpacity="0.2" />
-        <stop offset="100%" stopColor="#3B82F6" stopOpacity="0.1" />
-      </linearGradient>
-    </defs>
-    <rect width="100" height="100" fill="url(#fade)" />
-    <g className="opacity-30">
-      <line x1="20" y1="20" x2="80" y2="80" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,2" />
-      <line x1="80" y1="20" x2="20" y2="80" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2,2" />
-      <path d="M 20 30 L 20 20 L 30 20" fill="none" stroke="currentColor" strokeWidth="1" />
-      <path d="M 70 20 L 80 20 L 80 30" fill="none" stroke="currentColor" strokeWidth="1" />
-      <path d="M 20 70 L 20 80 L 30 80" fill="none" stroke="currentColor" strokeWidth="1" />
-      <path d="M 70 80 L 80 80 L 80 70" fill="none" stroke="currentColor" strokeWidth="1" />
-      <text x="50" y="48" fontSize="8" fill="currentColor" textAnchor="middle" className="uppercase">Coming</text>
-      <text x="50" y="58" fontSize="8" fill="currentColor" textAnchor="middle" className="uppercase">Soon</text>
-    </g>
-  </svg>
-);
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
 
-const MemoizedProjectPattern = memo(ProjectPattern);
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 100,
+      damping: 20
+    }
+  }
+};
 
-// Fixed Tech Tag component
-interface TechTagProps {
-  name: string;
-}
+// Components
+const CategoryBadge = memo(({ category }: { category: Project['category'] }) => {
+  const colors = {
+    'Web App': 'from-blue-400/10 to-blue-500/10 text-blue-600 border-blue-200',
+    'Mobile App': 'from-purple-400/10 to-purple-500/10 text-purple-600 border-purple-200',
+    'Desktop App': 'from-emerald-400/10 to-emerald-500/10 text-emerald-600 border-emerald-200'
+  };
 
-const TechTag: React.FC<TechTagProps> = ({ name }) => (
-  <span className="text-xs px-2 py-1 bg-blue-50 text-blue-600 rounded-full whitespace-nowrap border border-blue-100">
-    {name}
-  </span>
-);
-
-const MemoizedTechTag = memo(TechTag);
-
-// Fixed Project Status component
-interface ProjectStatusProps {
-  status: 'coming-soon' | 'live';
-  link?: string;
-}
-
-const ProjectStatus: React.FC<ProjectStatusProps> = ({ status, link }) => (
-  status === 'live' ? (
-    <a
-      href={link}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-flex items-center text-sm text-blue-600 hover:text-blue-700 transition-colors duration-200 py-1"
-    >
-      View Project
-      <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-      </svg>
-    </a>
-  ) : (
-    <span className="inline-flex items-center text-sm text-blue-600/70 py-1">
-      Coming Soon
-      <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
+  return (
+    <span className={`
+      text-xs font-medium px-3 py-1.5 
+      bg-gradient-to-r ${colors[category]}
+      rounded-full border
+    `}>
+      {category}
     </span>
-  )
-);
+  );
+});
 
-const MemoizedProjectStatus = memo(ProjectStatus);
+const TechBadge = memo(({ name }: { name: string }) => (
+  <div className="flex items-center gap-1.5">
+    <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+    <span className="text-sm text-gray-600">
+      {name}
+    </span>
+  </div>
+));
 
-// Fixed Project Card component
-interface ProjectCardProps {
-  project: Project;
-  index: number;
-}
+const LiveBadge = memo(() => (
+  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 border border-green-200">
+    <span className="relative flex h-2 w-2">
+      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+      <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+    </span>
+    <span className="text-xs font-medium text-green-700">Live Project</span>
+  </div>
+));
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => (
+const ComingSoonBadge = memo(() => (
+  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200">
+    <span className="relative flex h-2 w-2">
+      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+      <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
+    </span>
+    <span className="text-xs font-medium text-amber-700">Coming Soon</span>
+  </div>
+));
+
+const ProjectCard = memo(({ project }: { project: Project }) => (
   <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.3, delay: index * 0.1 }}
-    viewport={{ once: true, margin: "-50px" }}
-    className="relative group transform-gpu will-change-transform"
+    variants={cardVariants}
+    className="group relative flex flex-col bg-white rounded-2xl transition-all duration-300 hover:shadow-xl"
   >
-    <div className="relative overflow-hidden rounded-xl">
-      <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-blue-400 rounded-xl opacity-50 group-hover:opacity-100 blur transition-opacity duration-300" />
-      
-      <div className="relative bg-white p-4 sm:p-5 rounded-xl border border-blue-100 h-full">
-        <div className="relative h-32 sm:h-40 mb-4 overflow-hidden rounded-lg bg-gray-50 text-blue-500">
-          <div className="absolute inset-0 transition-transform duration-300 group-hover:scale-110 transform-gpu">
-            <MemoizedProjectPattern />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        </div>
+    {/* Card Header */}
+    <div className="relative px-6 pt-6">
+      <div className="flex items-start justify-between gap-4">
+        <CategoryBadge category={project.category} />
+        {project.status === 'live' ? <LiveBadge /> : <ComingSoonBadge />}
+      </div>
+      <h3 className="mt-4 text-xl font-bold text-gray-900">
+        {project.title}
+      </h3>
+      <p className="mt-2 text-gray-600 line-clamp-2">
+        {project.description}
+      </p>
+    </div>
 
-        <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
-          {project.title}
-        </h3>
-        <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-          {project.description}
-        </p>
-
-        <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4">
-          {project.tech.map((tech) => (
-            <MemoizedTechTag key={tech} name={tech} />
-          ))}
-        </div>
-
-        <MemoizedProjectStatus status={project.status} link={project.link} />
+    {/* Tech Stack */}
+    <div className="px-6 mt-6">
+      <div className="flex flex-wrap gap-3">
+        {project.tech.map(tech => (
+          <TechBadge key={tech} name={tech} />
+        ))}
       </div>
     </div>
+
+    {/* Card Footer */}
+    <div className="mt-auto px-6 py-6 border-t border-gray-100">
+      {project.status === 'live' ? (
+        <a
+          href={project.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors group/link"
+        >
+          View Project
+          <svg 
+            className="ml-2 w-4 h-4 transform transition-transform group-hover/link:translate-x-0.5" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              strokeWidth={2} 
+              d="M17 8l4 4m0 0l-4 4m4-4H3" 
+            />
+          </svg>
+        </a>
+      ) : (
+        <button 
+          className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 cursor-not-allowed"
+          disabled
+        >
+          In Development
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              strokeWidth={2} 
+              d="M12 6v6m0 0v6m0-6h6m-6 0H6" 
+            />
+          </svg>
+        </button>
+      )}
+    </div>
   </motion.div>
-);
+));
 
-const MemoizedProjectCard = memo(ProjectCard);
-
+// Projects Data
 const projects: Project[] = [
   {
-    title: "AI Chat Platform",
-    description: "Real-time chat application with AI-powered responses and sentiment analysis.",
-    tech: ["React", "Node.js", "OpenAI"],
+    title: "Enterprise AI Chat Platform",
+    description: "Advanced real-time communication platform with AI-powered responses, sentiment analysis, and contextual understanding for enhanced user interactions.",
+    tech: ["React", "Node.js", "OpenAI", "Socket.io"],
     status: 'live',
-    link: "https://github.com/yourusername/project1"
+    link: "https://github.com/yourusername/project1",
+    category: 'Web App'
   },
   {
-    title: "E-commerce Dashboard",
-    description: "Analytics dashboard for tracking sales, inventory, and customer behavior.",
-    tech: ["Next.js", "TypeScript", "Tailwind"],
-    status: 'coming-soon'
+    title: "Analytics Dashboard Pro",
+    description: "Enterprise-grade analytics platform providing real-time insights into business metrics, featuring advanced data visualization and predictive analytics.",
+    tech: ["Next.js", "TypeScript", "Tailwind", "Redux"],
+    status: 'coming-soon',
+    category: 'Web App'
   },
   {
-    title: "Crypto Portfolio Tracker",
-    description: "Track and analyze cryptocurrency investments with real-time data.",
-    tech: ["React", "Firebase", "Chart.js"],
-    status: 'coming-soon'
+    title: "DeFi Portfolio Manager",
+    description: "Comprehensive cryptocurrency portfolio system with real-time market data integration, automated trading strategies, and advanced risk analytics.",
+    tech: ["React Native", "Firebase", "TradingView", "WebSocket"],
+    status: 'coming-soon',
+    category: 'Mobile App'
   }
 ];
 
+// Main Section Component
 const ProjectsSection: React.FC = () => {
   return (
     <LazyMotion features={domAnimation}>
-      <section id="projects" className="bg-white py-12 sm:py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-              Featured Projects
+      <section id="projects" className="relative overflow-hidden bg-gray-50 py-24 sm:py-32">
+        <div className="absolute inset-0 bg-gradient-to-b from-white to-transparent" />
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Section Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center max-w-3xl mx-auto mb-16"
+          >
+            <h2 className="text-base font-semibold text-blue-600 mb-3">
+              PORTFOLIO
             </h2>
-            <div className="h-1 w-16 sm:w-20 bg-blue-600 mx-auto rounded-full" />
-          </div>
+            <h3 className="text-3xl font-bold text-gray-900 sm:text-4xl mb-4">
+              Featured Projects
+            </h3>
+            <p className="text-gray-600">
+              Explore a collection of my recent work and ongoing developments,
+              showcasing expertise in web applications, mobile development, and user experience design.
+            </p>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {projects.map((project, index) => (
-              <MemoizedProjectCard key={project.title} project={project} index={index} />
+          {/* Projects Grid */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {projects.map((project) => (
+              <ProjectCard key={project.title} project={project} />
             ))}
-          </div>
+          </motion.div>
+
+          {/* View All Projects Link */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5 }}
+            className="mt-12 text-center"
+          >
+            <a
+              href="/projects"
+              className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors"
+            >
+              View All Projects
+              <svg 
+                className="w-4 h-4" 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M17 8l4 4m0 0l-4 4m4-4H3" 
+                />
+              </svg>
+            </a>
+          </motion.div>
         </div>
       </section>
     </LazyMotion>

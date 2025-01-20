@@ -1,177 +1,277 @@
-import React, { memo, useCallback, useEffect, useRef } from 'react';
-import { motion, useMotionValue, useInView } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Code2, Server, Award, GitBranch } from 'lucide-react';
 
 // Types
-interface StatCardProps {
+interface TechItem {
+  name: string;
+  description?: string;
+  icon?: React.ReactNode;
+  proficiency?: number;
+}
+
+interface TechCategory {
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  items: TechItem[];
+}
+
+interface Metric {
   value: string;
   label: string;
+  description: string;
+  icon: React.ReactNode;
 }
 
-interface TechCategoryProps {
-  title: string;
-  items: string[];
+// Component Props
+interface StatCardProps {
+  metric: Metric;
 }
 
-// Memoized Components
-const BackgroundGrid = memo(() => (
-  <div className="absolute inset-0">
-    <div 
-      className="absolute inset-0 opacity-[0.03]"
-      style={{
-        backgroundImage: 
-          `linear-gradient(to right, rgba(37, 99, 235, 0.1) 1px, transparent 1px),
-           linear-gradient(to bottom, rgba(37, 99, 235, 0.1) 1px, transparent 1px)`,
-        backgroundSize: '40px 40px',
-      }}
-    />
-  </div>
-));
+interface TechStackProps {
+  categories: TechCategory[];
+}
 
-const SectionHeader = memo(() => (
-  <div className="text-center mb-20">
-    <h2 className="text-4xl font-bold text-gray-900 mb-4">About Me</h2>
-    <div className="h-1 w-20 bg-blue-600 mx-auto rounded-full mb-6" />
-  </div>
-));
+// Animations
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+  }
+};
 
-const JourneyCard = memo(() => (
-  <div className="relative h-full">
-    <div 
-      className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-blue-400 rounded-lg opacity-50 blur-md" 
-      style={{ clipPath: 'inset(0 0 0 0 round 8px)' }}
-    />
-    <div className="relative h-full p-6 bg-white rounded-lg border border-blue-100">
-      <h3 className="text-xl font-semibold text-blue-600 mb-4">My Journey</h3>
-      <p className="text-gray-600 leading-relaxed">
-        Full-stack software engineer specializing in building innovative digital solutions with modern web technologies. 
-        Combining technical expertise with a passion for user-centric design, I create scalable applications that solve 
-        complex challenges and deliver seamless experiences. From architecting robust backend systems to crafting 
-        intuitive user interfaces, I transform ideas into high-performance solutions that drive real-world impact.
-      </p>
-    </div>
-  </div>
-));
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.1
+    }
+  }
+};
 
-const StatCard = memo(({ value, label }: StatCardProps) => (
-  <div className="relative h-full">
-    <div 
-      className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-blue-400 rounded-lg opacity-50 blur-md" 
-      style={{ clipPath: 'inset(0 0 0 0 round 8px)' }}
-    />
-    <div className="relative h-full p-6 bg-white rounded-lg border border-blue-100">
-      <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent mb-2">
-        {value}
+// Components
+const StatCard = ({ metric }: StatCardProps) => (
+  <motion.div 
+    whileHover={{ y: -2 }}
+    className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 dark:border-gray-700"
+  >
+    <div className="flex items-start gap-4">
+      <div className="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+        {metric.icon}
       </div>
-      <div className="text-gray-600">{label}</div>
-    </div>
-  </div>
-));
-
-const TechCategory = memo(({ title, items }: TechCategoryProps) => (
-  <div className="space-y-3 transform-gpu">
-    <h4 className="text-gray-900 font-medium">{title}</h4>
-    <div className="grid grid-cols-2 gap-3">
-      {items.map((item) => (
-        <div key={item} className="flex items-center space-x-2">
-          <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-blue-500" />
-          <span className="text-gray-600 truncate">{item}</span>
+      <div>
+        <div className="font-bold text-3xl bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+          {metric.value}
         </div>
-      ))}
+        <div className="text-gray-600 dark:text-gray-300 font-medium mt-1">{metric.label}</div>
+        <div className="text-gray-500 dark:text-gray-400 text-sm mt-2">{metric.description}</div>
+      </div>
     </div>
-  </div>
-));
+  </motion.div>
+);
 
-// Static data
-const stats = [
-  { value: "3+", label: "Years Building Solutions" },
-  { value: "100k+", label: "Lines of Production Code" },
+const TechStack = ({ categories }: TechStackProps) => (
+  <div className="space-y-8">
+    {categories.map((category, index) => (
+      <motion.div 
+        key={category.title}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={{
+          hidden: { opacity: 0, y: 20 },
+          visible: { 
+            opacity: 1, 
+            y: 0,
+            transition: { delay: index * 0.1, duration: 0.5 }
+          }
+        }}
+      >
+        <div className="flex items-center gap-3 mb-4">
+          <div className="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+            {category.icon}
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              {category.title}
+            </h3>
+            <p className="text-gray-500 dark:text-gray-400 text-sm">
+              {category.description}
+            </p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {category.items.map((item) => (
+            <div 
+              key={item.name}
+              className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            >
+              <div className="flex items-center gap-3 text-gray-900 dark:text-white font-medium">
+                {item.icon && <span className="text-blue-600 dark:text-blue-400">{item.icon}</span>}
+                <span>{item.name}</span>
+              </div>
+              {item.description && (
+                <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
+                  {item.description}
+                </p>
+              )}
+              {item.proficiency && (
+                <div className="mt-2 h-1.5 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full"
+                    style={{ width: `${item.proficiency}%` }}
+                  />
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </motion.div>
+    ))}
+  </div>
+);
+
+// Enhanced Data
+const metrics: Metric[] = [
+  { 
+    value: "3+", 
+    label: "Years Experience",
+    description: "Building scalable web applications with modern technologies",
+    icon: <Award className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+  },
+  { 
+    value: "100k+", 
+    label: "Lines of Code",
+    description: "Written across production applications and open-source projects",
+    icon: <GitBranch className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+  },
 ];
 
-const technologies = [
+const techCategories: TechCategory[] = [
   {
     title: "Frontend Development",
+    description: "Building responsive and performant user interfaces",
+    icon: <Code2 className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
     items: [
-      "React (Hooks, Context)",
-      "TypeScript",
-      "Next.js (SSR)",
-      "TailwindCSS",
+      { 
+        name: "React & TypeScript",
+        description: "Component architecture, hooks, and type safety",
+        proficiency: 90
+      },
+      { 
+        name: "Next.js",
+        description: "Server-side rendering and static site generation",
+        proficiency: 85
+      },
+      { 
+        name: "Tailwind CSS",
+        description: "Utility-first styling and responsive design",
+        proficiency: 95
+      },
+      { 
+        name: "Angular",
+        description: "Enterprise-grade applications",
+        proficiency: 80
+      }
     ]
   },
   {
-    title: "Backend & Infrastructure",
+    title: "Backend Development",
+    description: "Creating secure and scalable server applications",
+    icon: <Server className="w-6 h-6 text-blue-600 dark:text-blue-400" />,
     items: [
-      "Node.js (Express)",
-      "AWS (Cloud)",
-      "PostgreSQL (DB)",
-      "Docker"
+      { 
+        name: "Node.js",
+        description: "REST APIs and real-time applications",
+        proficiency: 85
+      },
+      { 
+        name: "PostgreSQL",
+        description: "Database design and optimization",
+        proficiency: 80
+      },
+      { 
+        name: "AWS",
+        description: "Cloud infrastructure and deployment",
+        proficiency: 75
+      },
+      { 
+        name: "Docker",
+        description: "Containerization and orchestration",
+        proficiency: 70
+      }
     ]
   }
 ];
 
-const AboutSection: React.FC = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
-  const y = useMotionValue(20);
-
-  useEffect(() => {
-    if (isInView) {
-      y.set(0);
-    }
-  }, [isInView, y]);
-
+const AboutSection = () => {
   return (
-    <section
-      ref={ref}
-      id="about"
-      className="relative min-h-screen bg-white py-24 overflow-hidden will-change-transform"
-    >
-      <BackgroundGrid />
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isInView ? 1 : 0 }}
-          transition={{ duration: 0.5 }}
-          className="transform-gpu"
-        >
-          <SectionHeader />
-
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Personal Introduction */}
-            <div className="flex flex-col space-y-6 h-full">
-              {/* Journey Card - Takes up more vertical space */}
-              <div className="flex-grow">
-                <JourneyCard />
-              </div>
-
-              {/* Key Metrics - Fixed height */}
-              <div className="grid grid-cols-2 gap-6">
-                {stats.map((stat) => (
-                  <StatCard key={stat.label} {...stat} />
-                ))}
-              </div>
-            </div>
-            
-            {/* Technical Expertise */}
-            <div className="relative h-full">
-              <div 
-                className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-blue-400 rounded-lg opacity-50 blur-md"
-                style={{ clipPath: 'inset(0 0 0 0 round 8px)' }}
-              />
-              <div className="relative h-full p-8 bg-white rounded-lg border border-blue-100">
-                <h3 className="text-xl font-semibold text-blue-600 mb-6">Core Technologies</h3>
-                <div className="space-y-6">
-                  {technologies.map((category) => (
-                    <TechCategory key={category.title} {...category} />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+    <section className="py-24 bg-gray-50 dark:bg-gray-900" id="about">
+      <motion.div 
+        className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={staggerContainer}
+      >
+        {/* Header */}
+        <motion.div variants={fadeIn} className="text-center mb-16">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+            About Me
+          </h2>
+          <div className="h-1 w-20 bg-gradient-to-r from-blue-600 to-indigo-600 mx-auto rounded-full" />
         </motion.div>
-      </div>
+
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* Left Column */}
+          <motion.div variants={fadeIn} className="space-y-8">
+            {/* Bio */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-sm border border-gray-100 dark:border-gray-700">
+              <h3 className="text-xl font-semibold text-blue-600 dark:text-blue-400 mb-4">
+                My Journey
+              </h3>
+              <div className="prose dark:prose-invert">
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                  As a full-stack developer, I'm deeply passionate about crafting innovative 
+                  digital solutions that make a meaningful impact. My approach combines technical 
+                  expertise with a strong focus on user experience, ensuring that every project 
+                  I undertake not only meets technical requirements but exceeds user expectations.
+                </p>
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed mt-4">
+                  I specialize in building scalable web applications using modern technologies 
+                  and best practices. Whether it's optimizing performance, implementing complex 
+                  features, or solving challenging problems, I'm committed to delivering 
+                  high-quality solutions that drive results.
+                </p>
+              </div>
+            </div>
+
+            {/* Metrics */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {metrics.map((metric) => (
+                <StatCard key={metric.label} metric={metric} />
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Right Column */}
+          <motion.div variants={fadeIn}>
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-sm border border-gray-100 dark:border-gray-700">
+              <h3 className="text-xl font-semibold text-blue-600 dark:text-blue-400 mb-8">
+                Technical Expertise
+              </h3>
+              <TechStack categories={techCategories} />
+            </div>
+          </motion.div>
+        </div>
+      </motion.div>
     </section>
   );
 };
 
-export default memo(AboutSection);
+export default AboutSection;
