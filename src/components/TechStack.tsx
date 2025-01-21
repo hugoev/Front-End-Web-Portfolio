@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from 'react';
+import React, { useState, useCallback, memo, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Technology {
@@ -32,14 +32,56 @@ interface CategoryButtonProps {
   onClick: () => void;
 }
 
-// Optimized ProficiencyCircle component using memo
+// Optimized ProficiencyCircle component with intersection observer
 const ProficiencyCircle = memo(({ percentage }: ProficiencyCircleProps) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const circleRef = useRef<HTMLDivElement>(null);
   const circumference = 2 * Math.PI * 40;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (circleRef.current) {
+      observer.observe(circleRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  const progressStyle = {
+    strokeDasharray: circumference,
+    strokeDashoffset: isVisible ? strokeDashoffset : circumference,
+    transform: 'rotate(-90deg)',
+    transformOrigin: '50% 50%',
+    willChange: 'stroke-dashoffset',
+    transition: isVisible ? 'stroke-dashoffset 1s ease-out' : 'none'
+  };
+
+  const containerStyle = {
+    transform: 'translateZ(0)',
+    backfaceVisibility: 'hidden' as const,
+    perspective: 1000,
+    willChange: 'transform'
+  };
 
   return (
-    <div className="relative w-24 h-24">
-      <svg className="w-24 h-24 transform -rotate-90">
+    <div className="relative w-24 h-24" style={containerStyle} ref={circleRef}>
+      <svg 
+        className="w-24 h-24" 
+        style={{ 
+          transform: 'translateZ(0)',
+          willChange: 'transform'
+        }}
+      >
         <circle
           cx="48"
           cy="48"
@@ -48,20 +90,20 @@ const ProficiencyCircle = memo(({ percentage }: ProficiencyCircleProps) => {
           strokeWidth="8"
           fill="transparent"
         />
-        <motion.circle
+        <circle
           cx="48"
           cy="48"
           r="40"
           className="stroke-current text-blue-600"
           strokeWidth="8"
           fill="transparent"
-          strokeDasharray={circumference}
-          initial={{ strokeDashoffset: circumference }}
-          animate={{ strokeDashoffset }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          style={progressStyle}
         />
       </svg>
-      <div className="absolute inset-0 flex items-center justify-center">
+      <div 
+        className="absolute inset-0 flex items-center justify-center"
+        style={{ transform: 'translateZ(0)' }}
+      >
         <span className="text-2xl font-bold text-gray-900">{percentage}%</span>
       </div>
     </div>
@@ -124,13 +166,11 @@ TechnologyCard.displayName = 'TechnologyCard';
 const CategoryButton = memo(({ category, index, selectedCategory, onClick }: CategoryButtonProps) => (
   <button
     onClick={onClick}
-    className={`
-      relative px-8 py-3 rounded-xl text-sm font-medium transition-all duration-300
-      ${selectedCategory === index 
-        ? 'text-blue-600 bg-white shadow-sm' 
-        : 'text-gray-600 hover:text-gray-900'
-      }
-    `}
+    className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${
+      selectedCategory === index
+        ? 'bg-blue-600 text-white'
+        : 'bg-white text-gray-700 hover:bg-gray-200'
+    }`}
   >
     {category.name}
   </button>
