@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Technology {
@@ -6,8 +6,8 @@ interface Technology {
   level: 'Expert' | 'Advanced' | 'Proficient';
   proficiency: number;
   description: string;
-  icon: JSX.Element;
   features: string[];
+  icon: JSX.Element;
 }
 
 interface CategoryData {
@@ -16,63 +16,134 @@ interface CategoryData {
   technologies: Technology[];
 }
 
-const TechStackSection = () => {
-  const [selectedCategory, setSelectedCategory] = useState(0);
+interface ProficiencyCircleProps {
+  percentage: number;
+}
 
-  // Proficiency Circle Component
-  const ProficiencyCircle = ({ percentage }: { percentage: number }) => {
-    const circumference = 2 * Math.PI * 40;
-    const strokeDashoffset = circumference - (percentage / 100) * circumference;
-    const [isVisible, setIsVisible] = useState(false);
-    const circleRef = useRef<HTMLDivElement>(null);
+interface TechnologyCardProps {
+  tech: Technology;
+  index: number;
+}
 
-    useEffect(() => {
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-            observer.disconnect();
-          }
-        },
-        { threshold: 0.1 }
-      );
+interface CategoryButtonProps {
+  category: CategoryData;
+  index: number;
+  selectedCategory: number;
+  onClick: () => void;
+}
 
-      if (circleRef.current) {
-        observer.observe(circleRef.current);
-      }
+// Optimized ProficiencyCircle component using memo
+const ProficiencyCircle = memo(({ percentage }: ProficiencyCircleProps) => {
+  const circumference = 2 * Math.PI * 40;
+  const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
-      return () => observer.disconnect();
-    }, []);
+  return (
+    <div className="relative w-24 h-24">
+      <svg className="w-24 h-24 transform -rotate-90">
+        <circle
+          cx="48"
+          cy="48"
+          r="40"
+          className="stroke-current text-gray-100"
+          strokeWidth="8"
+          fill="transparent"
+        />
+        <motion.circle
+          cx="48"
+          cy="48"
+          r="40"
+          className="stroke-current text-blue-600"
+          strokeWidth="8"
+          fill="transparent"
+          strokeDasharray={circumference}
+          initial={{ strokeDashoffset: circumference }}
+          animate={{ strokeDashoffset }}
+          transition={{ duration: 1, ease: "easeOut" }}
+        />
+      </svg>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className="text-2xl font-bold text-gray-900">{percentage}%</span>
+      </div>
+    </div>
+  );
+});
 
-    return (
-      <div ref={circleRef} className="relative w-24 h-24">
-        <svg className="w-24 h-24 transform -rotate-90">
-          <circle
-            cx="48"
-            cy="48"
-            r="40"
-            className="stroke-current text-gray-100"
-            strokeWidth="8"
-            fill="transparent"
-          />
-          <circle
-            cx="48"
-            cy="48"
-            r="40"
-            className="stroke-current text-blue-600"
-            strokeWidth="8"
-            fill="transparent"
-            strokeDasharray={circumference}
-            strokeDashoffset={isVisible ? strokeDashoffset : circumference}
-            style={{ transition: 'stroke-dashoffset 1s ease-in-out' }}
-          />
-        </svg>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-2xl font-bold text-gray-900">{percentage}%</span>
+ProficiencyCircle.displayName = 'ProficiencyCircle';
+
+// Optimized TechnologyCard component using memo
+const TechnologyCard = memo(({ tech, index }: TechnologyCardProps) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.3, delay: index * 0.1 }}
+    className="group relative"
+  >
+    <div className="relative h-full bg-white p-8 rounded-2xl shadow-sm border border-gray-100 
+      hover:shadow-lg hover:border-blue-100 transition-all duration-300">
+      <div className="flex items-start justify-between mb-6">
+        <div>
+          <div className="flex items-center space-x-3 mb-3">
+            <div className="w-12 h-12 bg-blue-50 rounded-xl p-2.5 text-blue-600">
+              {tech.icon}
+            </div>
+            <span className={`px-3 py-1 rounded-full text-xs font-semibold
+              ${tech.level === 'Expert' 
+                ? 'bg-blue-100 text-blue-700' 
+                : tech.level === 'Advanced'
+                ? 'bg-indigo-100 text-indigo-700'
+                : 'bg-gray-100 text-gray-700'
+              }`}
+            >
+              {tech.level}
+            </span>
+          </div>
+          <h4 className="text-xl font-bold text-gray-900 mb-2">{tech.name}</h4>
+          <p className="text-gray-600 text-sm">{tech.description}</p>
         </div>
       </div>
-    );
-  };
+
+      <div className="mb-6 flex justify-center">
+        <ProficiencyCircle percentage={tech.proficiency} />
+      </div>
+
+      <div className="space-y-2">
+        {tech.features.map((feature: string, idx: number) => (
+          <div key={idx} className="flex items-center space-x-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-blue-600" />
+            <span className="text-sm text-gray-600">{feature}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </motion.div>
+));
+
+TechnologyCard.displayName = 'TechnologyCard';
+
+// CategoryButton component
+const CategoryButton = memo(({ category, index, selectedCategory, onClick }: CategoryButtonProps) => (
+  <button
+    onClick={onClick}
+    className={`
+      relative px-8 py-3 rounded-xl text-sm font-medium transition-all duration-300
+      ${selectedCategory === index 
+        ? 'text-blue-600 bg-white shadow-sm' 
+        : 'text-gray-600 hover:text-gray-900'
+      }
+    `}
+  >
+    {category.name}
+  </button>
+));
+
+CategoryButton.displayName = 'CategoryButton';
+
+// Main TechStackSection component
+const TechStackSection: React.FC = () => {
+  const [selectedCategory, setSelectedCategory] = useState<number>(0);
+  const handleCategoryChange = useCallback((index: number) => {
+    setSelectedCategory(index);
+  }, []);
 
   const categories: CategoryData[] = [
     {
@@ -177,9 +248,9 @@ const TechStackSection = () => {
             "Scaling"
           ],
           icon: (
-            <svg  viewBox="0 0 640 512">
-<path fill="currentColor" d="M349.9 236.3h-66.1v-59.4h66.1v59.4zm0-204.3h-66.1v60.7h66.1V32zm78.2 144.8H362v59.4h66.1v-59.4zm-156.3-72.1h-66.1v60.1h66.1v-60.1zm78.1 0h-66.1v60.1h66.1v-60.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1l-13.3-8.9zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1v-59.4zm-78.1-72.1h-66.1v60.1h66.1v-60.1z"/>
-</svg>
+            <svg viewBox="0 0 640 512" className="w-full h-full">
+              <path fill="currentColor" d="M349.9 236.3h-66.1v-59.4h66.1v59.4zm0-204.3h-66.1v60.7h66.1V32zm78.2 144.8H362v59.4h66.1v-59.4zm-156.3-72.1h-66.1v60.1h66.1v-60.1zm78.1 0h-66.1v60.1h66.1v-60.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1l-13.3-8.9zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1v-59.4zm-78.1-72.1h-66.1v60.1h66.1v-60.1z"/>
+            </svg>
           )
         },
         {
@@ -205,7 +276,6 @@ const TechStackSection = () => {
 
   return (
     <section className="relative py-24 bg-white">
-      {/* Modern subtle background */}
       <div className="absolute inset-0">
         <div 
           className="absolute inset-0 opacity-[0.02]"
@@ -220,7 +290,6 @@ const TechStackSection = () => {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
         <div className="text-center mb-20">
           <h2 className="text-sm font-semibold text-blue-600 tracking-wide uppercase mb-2">
             Technical Proficiency
@@ -233,28 +302,20 @@ const TechStackSection = () => {
           </p>
         </div>
 
-        {/* Category Navigation */}
         <div className="mb-12 flex justify-center">
           <div className="inline-flex p-1.5 bg-gray-100 rounded-2xl shadow-sm">
             {categories.map((category, index) => (
-              <button
+              <CategoryButton
                 key={category.name}
-                onClick={() => setSelectedCategory(index)}
-                className={`
-                  relative px-8 py-3 rounded-xl text-sm font-medium transition-all duration-300
-                  ${selectedCategory === index 
-                    ? 'text-blue-600 bg-white shadow-sm' 
-                    : 'text-gray-600 hover:text-gray-900'
-                  }
-                `}
-              >
-                {category.name}
-              </button>
+                category={category}
+                index={index}
+                selectedCategory={selectedCategory}
+                onClick={() => handleCategoryChange(index)}
+              />
             ))}
           </div>
         </div>
 
-        {/* Technology Grid */}
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedCategory}
@@ -265,54 +326,11 @@ const TechStackSection = () => {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {categories[selectedCategory].technologies.map((tech, index) => (
-              <motion.div
-                key={tech.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
-                className="group relative"
-              >
-                <div className="relative h-full bg-white p-8 rounded-2xl shadow-sm border border-gray-100 
-                  hover:shadow-lg hover:border-blue-100 transition-all duration-300">
-                  {/* Tech Header */}
-                  <div className="flex items-start justify-between mb-6">
-                    <div>
-                      <div className="flex items-center space-x-3 mb-3">
-                        <div className="w-12 h-12 bg-blue-50 rounded-xl p-2.5 text-blue-600">
-                          {tech.icon}
-                        </div>
-                        <span className={`px-3 py-1 rounded-full text-xs font-semibold
-                          ${tech.level === 'Expert' 
-                            ? 'bg-blue-100 text-blue-700' 
-                            : tech.level === 'Advanced'
-                            ? 'bg-indigo-100 text-indigo-700'
-                            : 'bg-gray-100 text-gray-700'
-                          }`}
-                        >
-                          {tech.level}
-                        </span>
-                      </div>
-                      <h4 className="text-xl font-bold text-gray-900 mb-2">{tech.name}</h4>
-                      <p className="text-gray-600 text-sm">{tech.description}</p>
-                    </div>
-                  </div>
-
-                  {/* Proficiency Circle */}
-                  <div className="mb-6 flex justify-center">
-                    <ProficiencyCircle percentage={tech.proficiency} />
-                  </div>
-
-                  {/* Features List */}
-                  <div className="space-y-2">
-                    {tech.features.map((feature, idx) => (
-                      <div key={idx} className="flex items-center space-x-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-blue-600" />
-                        <span className="text-sm text-gray-600">{feature}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
+              <TechnologyCard 
+                key={tech.name} 
+                tech={tech} 
+                index={index}
+              />
             ))}
           </motion.div>
         </AnimatePresence>
