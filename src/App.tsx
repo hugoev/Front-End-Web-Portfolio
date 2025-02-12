@@ -4,6 +4,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 // Preload critical assets with priority hints
 const Navbar = lazy(() => import(/* webpackPrefetch: true, webpackPreload: true */ './components/Navbar'));
 const HeroSection = lazy(() => import(/* webpackPrefetch: true, webpackPreload: true */ './components/HeroSection'));
+const GoogleAnalytics = lazy(() => import(/* webpackPreload: true */ './components/GoogleAnalytics'));
 
 // Dynamic imports with chunk optimization
 const AboutSection = lazy(() => 
@@ -55,10 +56,25 @@ const App: React.FC = () => {
       const observer = new PerformanceObserver((list) => {
         list.getEntries().forEach((entry) => {
           console.log(`${entry.name}: ${entry.startTime.toFixed(2)}ms`);
+          // Send performance metrics to GA4
+          if ((window as any).gtag) {
+            (window as any).gtag('event', 'performance_metric', {
+              metric_name: entry.name,
+              value: entry.startTime,
+              metric_type: entry.entryType
+            });
+          }
         });
       });
 
-      observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input', 'layout-shift'] });
+      observer.observe({ 
+        entryTypes: [
+          'largest-contentful-paint', 
+          'first-input', 
+          'layout-shift',
+          'resource'
+        ] 
+      });
       return () => observer.disconnect();
     }
   }, []);
@@ -104,6 +120,11 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen overflow-x-hidden">
       <ErrorBoundary FallbackComponent={ErrorFallback}>
+        {/* Analytics */}
+        <Suspense fallback={null}>
+          <GoogleAnalytics />
+        </Suspense>
+
         {/* Critical path rendering */}
         <div className="transform-gpu">
           <Suspense fallback={<div className="h-16 backdrop-blur-xl" />}>
