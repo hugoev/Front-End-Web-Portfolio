@@ -183,7 +183,7 @@ const AboutSection = () => {
               <h3 className="text-xl font-semibold text-blue-600  mb-4">
                 My Journey
               </h3>
-              <div className="prose dark:prose-invert">
+              <div className="prose">
                 <p className="text-gray-600  leading-relaxed">
                   As a full-stack developer with an interest in AI and machine learning, I specialize 
                   in building robust web applications using modern development practices. My approach 
@@ -246,7 +246,7 @@ const AboutSection = () => {
                       {category.items.map((item) => (
                         <div 
                           key={item.name}
-                          className="p-4 bg-gray-50  rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                          className="p-4 bg-gray-50  rounded-lg hover:bg-gray-100 transition-colors"
                         >
                           <div className="flex items-center gap-3 text-gray-900  font-medium">
                             {item.icon && <span className="text-blue-600 ">{item.icon}</span>}
