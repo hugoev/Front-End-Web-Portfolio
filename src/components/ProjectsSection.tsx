@@ -1,5 +1,5 @@
+import { LazyMotion, domAnimation, motion } from 'framer-motion';
 import React, { memo } from 'react';
-import { motion, LazyMotion, domAnimation } from 'framer-motion';
 
 // Types
 interface Project {
@@ -8,7 +8,7 @@ interface Project {
   tech: string[];
   status: 'coming-soon' | 'live';
   link?: string;
-  category: 'Web App' | 'Mobile App' | 'Desktop App';
+  category: 'Web App' | 'Mobile App' | 'Desktop App' | 'Systems';
 }
 
 // Animation variants
@@ -41,7 +41,8 @@ const CategoryBadge = memo(({ category }: { category: Project['category'] }) => 
   const colors = {
     'Web App': 'from-blue-400/10 to-blue-500/10 text-blue-600 border-blue-200',
     'Mobile App': 'from-purple-400/10 to-purple-500/10 text-purple-600 border-purple-200',
-    'Desktop App': 'from-emerald-400/10 to-emerald-500/10 text-emerald-600 border-emerald-200'
+    'Desktop App': 'from-emerald-400/10 to-emerald-500/10 text-emerald-600 border-emerald-200',
+    'Systems': 'from-orange-400/10 to-orange-500/10 text-orange-600 border-orange-200'
   };
 
   return (
@@ -70,7 +71,7 @@ const LiveBadge = memo(() => (
       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
       <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
     </span>
-    <span className="text-xs font-medium text-green-700">Live Project</span>
+    <span className="text-xs font-medium text-green-700">Open Source</span>
   </div>
 ));
 
@@ -114,44 +115,27 @@ const ProjectCard = memo(({ project }: { project: Project }) => (
 
     {/* Card Footer */}
     <div className="mt-auto px-6 py-6 border-t border-gray-100">
-      {project.status === 'live' ? (
-        <a
-          href={project.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors group/link"
+      <a
+        href={project.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors group/link"
+      >
+        View Repository
+        <svg 
+          className="ml-2 w-4 h-4 transform transition-transform group-hover/link:translate-x-0.5" 
+          fill="none" 
+          stroke="currentColor" 
+          viewBox="0 0 24 24"
         >
-          View Project
-          <svg 
-            className="ml-2 w-4 h-4 transform transition-transform group-hover/link:translate-x-0.5" 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24"
-          >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth={2} 
-              d="M17 8l4 4m0 0l-4 4m4-4H3" 
-            />
-          </svg>
-        </a>
-      ) : (
-        <button 
-          className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 cursor-not-allowed"
-          disabled
-        >
-          In Development
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth={2} 
-              d="M12 6v6m0 0v6m0-6h6m-6 0H6" 
-            />
-          </svg>
-        </button>
-      )}
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={2} 
+            d="M17 8l4 4m0 0l-4 4m4-4H3" 
+          />
+        </svg>
+      </a>
     </div>
   </motion.div>
 ));
@@ -159,26 +143,36 @@ const ProjectCard = memo(({ project }: { project: Project }) => (
 // Projects Data
 const projects: Project[] = [
   {
-    title: "Enterprise AI Chat Platform",
-    description: "Advanced real-time communication platform with AI-powered responses, sentiment analysis, and contextual understanding for enhanced user interactions.",
-    tech: ["React", "Node.js", "OpenAI", "Socket.io"],
+    title: "Kestrel",
+    description: "High-performance TCP load balancer in Rust with configurable algorithms.",
+    tech: ["Rust", "Tokio", "Async", "TCP"],
     status: 'live',
-    link: "https://github.com/yourusername/project1",
+    link: "https://github.com/hugoev/Kestrel",
+    category: 'Systems'
+  },
+  {
+    title: "Flow",
+    description: "Real-time IoT platform for vehicle sensor data with microservices.",
+    tech: ["Angular", "Spring Boot", "Kafka", "IoT"],
+    status: 'live',
+    link: "https://github.com/hugoev/Flow",
     category: 'Web App'
   },
   {
-    title: "Analytics Dashboard Pro",
-    description: "Enterprise-grade analytics platform providing real-time insights into business metrics, featuring advanced data visualization and predictive analytics.",
-    tech: ["Next.js", "TypeScript", "Tailwind", "Redux"],
-    status: 'coming-soon',
+    title: "Notes",
+    description: "Full-stack notes app with infinite scrolling and real-time updates.",
+    tech: ["Next.js", "Django", "PostgreSQL", "JWT"],
+    status: 'live',
+    link: "https://github.com/hugoev/Notes",
     category: 'Web App'
   },
   {
-    title: "DeFi Portfolio Manager",
-    description: "Comprehensive cryptocurrency portfolio system with real-time market data integration, automated trading strategies, and advanced risk analytics.",
-    tech: ["React Native", "Firebase", "TradingView", "WebSocket"],
-    status: 'coming-soon',
-    category: 'Mobile App'
+    title: "Lumo",
+    description: "Project management tool with Kanban boards and team collaboration.",
+    tech: ["ASP.NET Core", "Vue 3", "Kanban", "Project Management"],
+    status: 'live',
+    link: "https://github.com/hugoev/Lumo",
+    category: 'Web App'
   }
 ];
 
@@ -232,7 +226,9 @@ const ProjectsSection: React.FC = () => {
             className="mt-12 text-center"
           >
             <a
-              href="/projects"
+              href="https://github.com/hugoev"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors"
             >
               View All Projects
