@@ -1,0 +1,31 @@
+{
+  "files": {
+    "main.css": "/Front-End-Web-Portfolio/static/css/main.0ed2a8da.css",
+    "main.js": "/Front-End-Web-Portfolio/static/js/main.6c95d440.js",
+    "static/js/159.37e8bde7.chunk.js": "/Front-End-Web-Portfolio/static/js/159.37e8bde7.chunk.js",
+    "static/js/297.8101ca6a.chunk.js": "/Front-End-Web-Portfolio/static/js/297.8101ca6a.chunk.js",
+    "about.js": "/Front-End-Web-Portfolio/static/js/about.3d8a8030.chunk.js",
+    "projects.js": "/Front-End-Web-Portfolio/static/js/projects.82a4a057.chunk.js",
+    "experience.js": "/Front-End-Web-Portfolio/static/js/experience.bab53790.chunk.js",
+    "contact.js": "/Front-End-Web-Portfolio/static/js/contact.e4ee13b3.chunk.js",
+    "footer.js": "/Front-End-Web-Portfolio/static/js/footer.2c590def.chunk.js",
+    "static/js/453.ace21015.chunk.js": "/Front-End-Web-Portfolio/static/js/453.ace21015.chunk.js",
+    "static/js/274.570ec410.chunk.js": "/Front-End-Web-Portfolio/static/js/274.570ec410.chunk.js",
+    "index.html": "/Front-End-Web-Portfolio/index.html",
+    "main.0ed2a8da.css.map": "/Front-End-Web-Portfolio/static/css/main.0ed2a8da.css.map",
+    "main.6c95d440.js.map": "/Front-End-Web-Portfolio/static/js/main.6c95d440.js.map",
+    "159.37e8bde7.chunk.js.map": "/Front-End-Web-Portfolio/static/js/159.37e8bde7.chunk.js.map",
+    "297.8101ca6a.chunk.js.map": "/Front-End-Web-Portfolio/static/js/297.8101ca6a.chunk.js.map",
+    "about.3d8a8030.chunk.js.map": "/Front-End-Web-Portfolio/static/js/about.3d8a8030.chunk.js.map",
+    "projects.82a4a057.chunk.js.map": "/Front-End-Web-Portfolio/static/js/projects.82a4a057.chunk.js.map",
+    "experience.bab53790.chunk.js.map": "/Front-End-Web-Portfolio/static/js/experience.bab53790.chunk.js.map",
+    "contact.e4ee13b3.chunk.js.map": "/Front-End-Web-Portfolio/static/js/contact.e4ee13b3.chunk.js.map",
+    "footer.2c590def.chunk.js.map": "/Front-End-Web-Portfolio/static/js/footer.2c590def.chunk.js.map",
+    "453.ace21015.chunk.js.map": "/Front-End-Web-Portfolio/static/js/453.ace21015.chunk.js.map",
+    "274.570ec410.chunk.js.map": "/Front-End-Web-Portfolio/static/js/274.570ec410.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0ed2a8da.css",
+    "static/js/main.6c95d440.js"
+  ]
+}
