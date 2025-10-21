@@ -15,7 +15,6 @@ const AboutSection = lazy(() =>
 
 const lazyComponents = {
   ProjectsSection: lazy(() => import(/* webpackChunkName: "projects" */ './components/ProjectsSection')),
-  TechStack: lazy(() => import(/* webpackChunkName: "tech" */ './components/TechStack')),
   ExperienceSection: lazy(() => import(/* webpackChunkName: "experience" */ './components/ExperienceSection')),
   ContactSection: lazy(() => import(/* webpackChunkName: "contact" */ './components/ContactSection')),
   Footer: lazy(() => import(/* webpackChunkName: "footer" */ './components/Footer'))

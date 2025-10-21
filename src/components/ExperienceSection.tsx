@@ -1,5 +1,5 @@
-import React, { useState, useCallback, memo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import { memo, useCallback, useState } from 'react';
 
 interface Experience {
   company: string;
@@ -11,6 +11,24 @@ interface Experience {
 }
 
 const experiences: Experience[] = [
+  {
+    company: "Full-Stack Developer",
+    logo: (
+      <svg viewBox="0 0 640 512" className="w-full h-full">
+        <path fill="currentColor" d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3L562.7 256l-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/>
+      </svg>
+    ),
+    role: "Full-Stack Software Engineer",
+    period: "2022 - Present",
+    description: [
+      "Built complete web applications for enterprise clients, handling both user interfaces and backend systems.",
+      "Developed scalable applications that can handle thousands of users and growing business needs.",
+      "Created data-driven solutions with efficient database design and API integrations.",
+      "Implemented automated deployment processes and CI/CD pipelines, improving system reliability by 40%.",
+      "Led cross-functional teams using agile methodologies, consistently delivering projects ahead of schedule."
+    ],
+    skills: ["Python", "Django", "Java", "Spring Boot", "React", "TypeScript", "AWS", "Docker", "PostgreSQL", "CI/CD"]
+  },
   {
     company: "Apple",
     logo: (
@@ -29,25 +47,7 @@ const experiences: Experience[] = [
     skills: ["Technical Support", "Problem Solving", "iOS", "macOS", "Automation", "Customer Success"]
   },
   {
-    company: "Software Engineer",
-    logo: (
-      <svg viewBox="0 0 640 512" className="w-full h-full">
-        <path fill="currentColor" d="M392.8 1.2c-17-4.9-34.7 5-39.6 22l-128 448c-4.9 17 5 34.7 22 39.6s34.7-5 39.6-22l128-448c4.9-17-5-34.7-22-39.6zm80.6 120.1c-12.5 12.5-12.5 32.8 0 45.3L562.7 256l-89.4 89.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l112-112c12.5-12.5 12.5-32.8 0-45.3l-112-112c-12.5-12.5-32.8-12.5-45.3 0zm-306.7 0c-12.5-12.5-32.8-12.5-45.3 0l-112 112c-12.5 12.5-12.5 32.8 0 45.3l112 112c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l89.4-89.4c12.5-12.5 12.5-32.8 0-45.3z"/>
-      </svg>
-    ),
-    role: "Software Engineer",
-    period: "2023 - Present",
-    description: [
-      "Developed and deployed custom web applications for clients using React, Next.js, and TypeScript.",
-      "Designed scalable backend systems with Python and Django to support dynamic client needs.",
-      "Managed the full software development lifecycle, including requirements gathering, implementation, testing, and deployment.",
-      "Optimized application performance and ensured seamless integration with third-party APIs.",
-      "Provided ongoing maintenance and support, delivering high-quality solutions tailored to client requirements."
-    ],
-    skills: ["React", "Next.js", "TypeScript", "PostgreSQL", "Python", "Django", "REST APIs", "AWS",]
-  },
-  {
-    company: "UTSA",
+    company: "UTSA Research",
     logo: (
       <svg viewBox="0 0 640 512" className="w-full h-full">
         <path fill="currentColor" d="M320 32c-8.1 0-16.1 1.4-23.7 4.1L15.8 137.4C6.3 140.9 0 149.9 0 160s6.3 19.1 15.8 22.6l57.9 20.9C57.3 229.3 48 259.8 48 291.9v28.1c0 28.4-10.8 57.7-22.3 80.8c-6.5 13-13.9 25.8-22.5 37.6C0 442.7-.9 448.3 .9 453.4s6 8.9 11.2 10.2l64 16c4.2 1.1 8.7 .3 12.4-2s6.3-6.1 7.1-10.4c8.6-42.8 4.3-81.2-2.1-108.7C90.3 344.3 86 329.8 80 316.5V291.9c0-30.2 10.2-58.7 27.9-81.5c12.9-15.5 29.6-28 49.2-35.7l157-61.7c8.2-3.2 17.5 .8 20.7 9s-.8 17.5-9 20.7l-157 61.7c-12.4 4.9-23.3 12.4-32.2 21.6l159.6 57.6c7.6 2.7 15.6 4.1 23.7 4.1s16.1-1.4 23.7-4.1L624.2 182.6c9.5-3.4 15.8-12.5 15.8-22.6s-6.3-19.1-15.8-22.6L343.7 36.1C336.1 33.4 328.1 32 320 32zM128 408c0 35.3 86 72 192 72s192-36.7 192-72L496.7 262.6 354.5 314c-11.1 4-22.8 6-34.5 6s-23.5-2-34.5-6L143.3 262.6 128 408z"/>
@@ -56,10 +56,10 @@ const experiences: Experience[] = [
     role: "Research Assistant",
     period: "2023 - 2024",
     description: [
-      "Researched data security, focusing on identifying data leaks in Android devices.",
-      "Developed Python scripts to detect potential data leaks, improving detection efficiency by 30%.",
-      "Collaborated with faculty and researchers to design experiments, analyze data, and contribute to a research paper for publication.",
-      "Presented findings at a departmental seminar, effectively communicating complex methodologies and receiving positive feedback for clarity."
+      "Researched mobile device security, identifying potential data leaks in Android applications.",
+      "Created automated tools that improved detection efficiency by 30%, saving significant research time.",
+      "Collaborated with university faculty to design experiments and analyze security data.",
+      "Presented research findings to academic audiences, effectively communicating complex security concepts."
     ],    
     skills: ["Research", "Python", "Data Security", "Automation", "Data Analysis", "Android", "Scientific Writing", "Problem Solving"]
   }

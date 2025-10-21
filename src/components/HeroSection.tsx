@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 
 // Types
 interface Technology {
@@ -21,10 +21,10 @@ interface SocialLink {
 
 // Static data
 const TECHNOLOGIES: readonly Technology[] = [
-  { name: 'React', color: 'from-cyan-400 to-blue-500', icon: '⚛️' },
-  { name: 'TypeScript', color: 'from-blue-400 to-indigo-500', icon: '📝' },
-  { name: 'Node.js', color: 'from-green-400 to-emerald-500', icon: '🚀' },
-  { name: 'Next.js', color: 'from-gray-700 to-gray-900', icon: '▲' }
+  { name: 'Python', color: 'from-green-400 to-emerald-500', icon: '🐍' },
+  { name: 'Java', color: 'from-orange-400 to-red-500', icon: '☕' },
+  { name: 'Go', color: 'from-cyan-400 to-blue-500', icon: '🚀' },
+  { name: 'TypeScript', color: 'from-blue-400 to-indigo-500', icon: '📝' }
 ];
 
 const SOCIAL_LINKS: readonly SocialLink[] = [
@@ -108,8 +108,8 @@ const FeatureCard = memo(({ tech, mousePosition }: { tech: Technology; mousePosi
                 {tech.name}
               </motion.div>
               <p className="text-gray-500 leading-relaxed text-sm lg:text-base">
-                Specialized in building scalable applications with modern web technologies 
-                and best practices.
+                Building high-performance backend services and systems with {tech.name.toLowerCase()}, 
+                focusing on scalability, reliability, and modern development practices.
               </p>
             </div>
           </div>
@@ -119,18 +119,10 @@ const FeatureCard = memo(({ tech, mousePosition }: { tech: Technology; mousePosi
             <div className="grid grid-cols-2 gap-3 lg:gap-4">
               {[
                 { 
-                  name: 'Frontend Development', 
+                  name: 'Full-Stack Development', 
                   icon: (
                     <svg className="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                    </svg>
-                  )
-                },
-                { 
-                  name: 'Backend Architecture', 
-                  icon: (
-                    <svg className="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
                     </svg>
                   )
                 },
@@ -143,10 +135,18 @@ const FeatureCard = memo(({ tech, mousePosition }: { tech: Technology; mousePosi
                   )
                 },
                 { 
+                  name: 'AI/ML', 
+                  icon: (
+                    <svg className="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                  )
+                },
+                { 
                   name: 'DevOps & CI/CD', 
                   icon: (
                     <svg className="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                     </svg>
                   )
                 }
@@ -205,8 +205,8 @@ const Header = memo(() => (
     </motion.div>
 
     <motion.p variants={fadeInUp} className="text-gray-600 text-base sm:text-lg max-w-xl leading-relaxed">
-      Crafting exceptional digital experiences through innovative solutions
-      and cutting-edge technologies.
+      Full-stack software engineer specializing in backend services, systems programming,
+      and modern web applications. Currently building scalable applications with Go, Java, and Python.
     </motion.p>
   </motion.div>
 ));
